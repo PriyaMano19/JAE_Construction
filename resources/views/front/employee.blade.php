@@ -32,6 +32,25 @@
     border-color: #252f76;
     font-size: 18px;
 }
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
       </style>
 
 
@@ -55,8 +74,9 @@
                 
               </div>
               <form name="book_form" action="layout/insert-booking.php" method="post" onsubmit="return validateForm()">
-                
+            
                 <div class="m-b-10">
+                    <label>Name</label>
                   <input class="form-control" type="text" name="owner_name" placeholder="Your Name">
                 </div>
                 <div class="m-b-10">
@@ -97,13 +117,13 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-15">Employee_ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-15 ps-2">Name</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-15">Contact_N0</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-15">NIC</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-15">Skills</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-15">Amount</th>
-                      <th class="text-secondary opacity-7">Actions</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Employee_ID</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Contact_N0</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">NIC</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Skills</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
+                      <th class="text-secondary opacity-15">Actions</th>
                     </tr>
                   </thead>
                   <tbody>

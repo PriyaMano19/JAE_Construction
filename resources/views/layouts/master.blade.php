@@ -38,7 +38,7 @@
             <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
           </li>
           <li>
-              <a href="#"><span class="fa fa-user mr-3"></span> Employee</a>
+              <a href="employee"><span class="fa fa-user mr-3"></span> Employee</a>
           </li>
           <li>
             <a href="#"><span class="fa fa-sticky-note mr-3"></span> Category</a>
