@@ -8354,3 +8354,10 @@ a[data-toggle="collapse"] {
   .btn-plus:hover {
     background-color: #B2022F;
   }
+  
+  .m-b-5{
+    margin-bottom: 5px;
+  }
+  .m-b-10{
+    margin-bottom: 10px;
+  }

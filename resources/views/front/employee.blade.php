@@ -1,5 +1,40 @@
 @extends('layouts.master')
 @section('content')
+    
+<style type="text/css">
+        .m-b-5{
+          margin-bottom: 5px;
+        }
+        .m-b-10{
+          margin-bottom: 10px;
+        }
+        .btn-dangerr {
+    color: #fff;
+    background-color: #636161;
+    border-color: #636161;
+    font-size: 18px;
+}
+.btn-dangerr:hover {
+    color: #fff;
+    background-color: #636161;
+    border-color: #636161;
+    font-size: 18px;
+}
+.btn-successs {
+    color: #fff;
+    background-color: #252f76;
+    border-color: #252f76;
+    font-size: 18px;
+}
+.btn-successs:hover {
+    color: #fff;
+    background-color: #252f76;
+    border-color: #252f76;
+    font-size: 18px;
+}
+      </style>
+
+
 <button class="btn-plus" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus fa-2xl"></i></button>
 
       <!-- Modal -->
