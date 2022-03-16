@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = Employee::all();
-        return view('front.employee')->with('employee',$employee);
+        //
     }
 
     /**
@@ -37,18 +35,6 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'emp_name'=>'required',
-            'contact_no'=>'required',
-            'NIC'=>'required',
-            'Skills'=>'required',
-            'Amount'=>'required',
-        ]);
-
-        Employee::create($request->all());
-
-        return redirect()->route('employee')
-        ->with('success','employee created successfully');
     }
 
     /**
@@ -57,9 +43,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function show($id)
     {
-        return view('employee.show',compact('employee'));
+        //
     }
 
     /**
@@ -68,9 +54,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        return view('front.edit_employee',compact('employee'));
+        //
     }
 
     /**
@@ -80,16 +66,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-
-        ]);
-
-        $employee->update($request->all());
-        //$employee = Employee::where('id',$employee)->first();
-        return redirect()->route('employee')
-        ->with('success','Updated successfully');
+        //
     }
 
     /**
@@ -98,11 +77,8 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   /* public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        $employee->delete();
-
-        return redirect()->route('employee')
-        ->with('success','deleted successfully');
-    }*/
+        //
+    }
 }

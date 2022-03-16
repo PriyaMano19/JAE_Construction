@@ -64,7 +64,7 @@
           <div class="modal-content">
             <div class="modal-header" style="color:white;background-color: #B2022F;">
             <div style="flex-direction:column;">
-              <h4 class="text-center modal-title" style="color:white">ADD Employee</h4>
+              <h4 class="text-center modal-title" style="color:white">ADD Category</h4>
              
             </div>
             </div>
@@ -80,23 +80,15 @@
                </ul>
              </div>
              @endif
-              <form action="{{route('employee.store')}}" method="post">
+              <form action="{{route('category.store')}}" method="post" >
             @csrf
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="emp_name" placeholder="Your Name">
+                  <input class="form-control" type="text" name="cat_name" placeholder="Category Name">
                 </div>
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="contact_no" placeholder="Contact Number" >
-                </div>
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="NIC" placeholder="NIC Number">
-                </div>
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="Skills" placeholder="skills">
-                </div>
+                
 
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="Amount" placeholder="Amount">
+                  <input class="form-control" type="text" name="cat_description" placeholder="Description">
                   
                 </div>
 
@@ -118,7 +110,57 @@
 
 
 
+<!-- Modal -->
+<div style="margin-top: 60px;" id="myModal2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header" style="color:white;background-color: #B2022F;">
+            <div style="flex-direction:column;">
+              <h4 class="text-center modal-title" style="color:white">Edit Category</h4>
+             
+            </div>
+            </div>
+
+            <div class="modal-body">
+             @if($errors->any())
+             <div class="alert alert-danger">
+               <strong>Woops!</strong>There is a problem with your inputs.<br><br>
+               <ul>
+                 @foreach($errors->all() as $error)
+                 <li>{{$error}}</li>
+                 @endforeach
+               </ul>
+             </div>
+             @endif
+              <form action="{{route('category.update',$category[0]->id)}}" method="post" >
+            @csrf
+            @method('PUT')
+            <div class="m-b-10">
+                  <input class="form-control" type="text" name="cat_name" placeholder="Category Name" value="$category->cat_name">
+                </div>
+                
+
+                <div class="m-b-10">
+                  <input class="form-control" type="text" name="cat_description" placeholder="Description" value="$category->cat_description">
+                  
+                </div>
+
+                
+
+                  
+              
+            </div>
+            <div class="modal-footer">
+              <button style="border-radius: 0px;" type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+              <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="Update">
+            </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
       
 
 
@@ -132,7 +174,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-danger shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Employee details</h6>
+                <h6 class="text-white text-capitalize ps-3">Category details</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -146,41 +188,36 @@
                   <thead>
                  
                     <tr>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Employee ID</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Name</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Contact N0</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">NIC</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Skills</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Category ID</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Category Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Description</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Created_At</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Updated_At</th>
                       <th class="text-secondary opacity-15">Actions</th>
                     </tr>
                     
                   </thead>
                   <tbody>
-                  @foreach($employee as $emp)
+                  @foreach($category as $cat)
                     <tr>
                       <td class="align-middle text-center text-sm">
-                      {{$emp->emp_id}}
+                      {{$cat->id}}
                       </td>
                       <td class="align-middle text-center text-sm">
-                      {{$emp->emp_name}}
+                      {{$cat->cat_name}}
                       </td>
                       <td class="align-middle text-center text-sm">
-                      {{$emp->contact_no}}
+                      {{$cat->cat_description}}
                       </td>
-                      <td class="align-middle text-center">
-                      {{$emp->NIC}}
+                      <td class="align-middle text-center text-sm">
+                      {{$cat->created_at}}
                       </td>
-                      <td class="align-middle">
+                      <td class="align-middle text-center text-sm">
+                      {{$cat->updated_at}}
+                      </td>
                       
-                      {{$emp->Skills}}
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                      {{$emp->Amount}}
-                          
-                      </td>
                       <td class="align-middle">
-                        <a href="{{ route('employee.edit',$emp->emp_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
+                        <a href="" class="btn btn-success" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-pencil"></i></a>
                           <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a>
                           
                       </td>

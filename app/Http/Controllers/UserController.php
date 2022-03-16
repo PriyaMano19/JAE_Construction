@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -19,7 +19,7 @@ class UserController extends Controller
 
         public function check(Request $request)
     {  
-        $user = $request->username;
+        /*$user = $request->username;
         $pass  = $request->password;
  
         if (auth()->attempt(array('username' => $user, 'password' => $pass)))
@@ -30,7 +30,20 @@ class UserController extends Controller
          {  
              session()->flash('error', 'Invalid Credentials');
              return redirect()->route('employee');
-         }  
+         }  */
+
+        
+
+        $users = User::where('username', $request['username'])->where('password', $request['password'])->get();
+        $count = $users->count();
+
+        if($count > 0) {
+            return redirect()->route('employee');   
+        }
+        else{
+            session()->flash('error', 'Invalid Credentials');
+            return redirect()->route('front.login');
+        }
     }
 
    

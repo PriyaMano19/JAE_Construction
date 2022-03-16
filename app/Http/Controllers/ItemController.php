@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
+use App\item;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = Employee::all();
-        return view('front.employee')->with('employee',$employee);
+        $Item = item::all();
+        return view('front.items')->with('Item',$Item);
     }
 
     /**
@@ -34,21 +34,9 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function show(Request $request)
     {
         //
-        $request->validate([
-            'emp_name'=>'required',
-            'contact_no'=>'required',
-            'NIC'=>'required',
-            'Skills'=>'required',
-            'Amount'=>'required',
-        ]);
-
-        Employee::create($request->all());
-
-        return redirect()->route('employee')
-        ->with('success','employee created successfully');
     }
 
     /**
@@ -57,9 +45,19 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function store(Request $request)
     {
-        return view('employee.show',compact('employee'));
+        $request->validate([
+            'item_name'=>'required',
+            'item_description'=>'required',
+            'cat_code'=>'required',
+            
+        ]);
+
+        item::create($request->all());
+
+        return redirect()->route('item')
+        ->with('success','item created successfully');
     }
 
     /**
@@ -68,9 +66,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        return view('front.edit_employee',compact('employee'));
+        return view('front.edit',compact('item'));
     }
 
     /**
@@ -80,15 +78,15 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, item $Item)
     {
         $request->validate([
 
         ]);
 
-        $employee->update($request->all());
+        $Item->update($request->all());
         //$employee = Employee::where('id',$employee)->first();
-        return redirect()->route('employee')
+        return redirect()->route('item')
         ->with('success','Updated successfully');
     }
 
@@ -98,11 +96,8 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   /* public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        $employee->delete();
-
-        return redirect()->route('employee')
-        ->with('success','deleted successfully');
-    }*/
+        //
+    }
 }

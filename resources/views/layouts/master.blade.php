@@ -41,10 +41,10 @@
               <a href="employee"><span class="fa fa-user mr-3"></span> Employee</a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-sticky-note mr-3"></span> Category</a>
+            <a href="category"><span class="fa fa-sticky-note mr-3"></span> Category</a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-sticky-note mr-3"></span> Items</a>
+            <a href="item"><span class="fa fa-sticky-note mr-3"></span> Items</a>
           </li>
           <li>
             <a href="#"><span class="fa fa-paper-plane mr-3"></span> Project</a>

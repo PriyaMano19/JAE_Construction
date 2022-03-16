@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
+use App\Category;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = Employee::all();
-        return view('front.employee')->with('employee',$employee);
+        $category = Category::all();
+        return view('front.category')->with('category',$category);
     }
 
     /**
@@ -36,19 +36,17 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $request->validate([
-            'emp_name'=>'required',
-            'contact_no'=>'required',
-            'NIC'=>'required',
-            'Skills'=>'required',
-            'Amount'=>'required',
+          //
+          $request->validate([
+            'cat_name'=>'required',
+            'cat_description'=>'required',
+            
         ]);
 
-        Employee::create($request->all());
+        Category::create($request->all());
 
-        return redirect()->route('employee')
-        ->with('success','employee created successfully');
+        return redirect()->route('category')
+        ->with('success','category created successfully');
     }
 
     /**
@@ -57,9 +55,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function show($id)
     {
-        return view('employee.show',compact('employee'));
+        //
     }
 
     /**
@@ -68,9 +66,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        return view('front.edit_employee',compact('employee'));
+        return view('front.edit',compact('category'));
     }
 
     /**
@@ -80,17 +78,18 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, Category $category)
     {
         $request->validate([
 
         ]);
 
-        $employee->update($request->all());
-        //$employee = Employee::where('id',$employee)->first();
-        return redirect()->route('employee')
+        $category->update($request->all());
+
+        return redirect()->route('category')
         ->with('success','Updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -98,11 +97,8 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   /* public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        $employee->delete();
-
-        return redirect()->route('employee')
-        ->with('success','deleted successfully');
-    }*/
+        //
+    }
 }
