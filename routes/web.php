@@ -27,7 +27,7 @@ Route::get('/edit', 'EmployeeController@edit')->name('employee.edit');
 Route::get('/category', 'CategoryController@index')->name('category');
 Route::POST('/cstore', 'CategoryController@store')->name('category.store');
 Route::PUT('/cupdate', 'CategoryController@update')->name('category.update');
-Route::get('/cedit', 'CategoryeController@edit')->name('category.edit');
+Route::get('/cedit', 'CategoryController@edit')->name('category.edit');
 
 
 Route::get('/item', 'ItemController@index')->name('item');

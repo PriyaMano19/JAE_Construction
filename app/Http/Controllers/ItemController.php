@@ -66,9 +66,9 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Item $item)
     {
-        return view('front.edit',compact('item'));
+        return view('front.edit_item',compact('item'));
     }
 
     /**
