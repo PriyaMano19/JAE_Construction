@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Budget;
 use Illuminate\Http\Request;
 
-use App\Project;
-
-class ProjectController extends Controller
+class BudgetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $project = Project::all();
-        return view('front.project')->with('project',$project);
+        $budget = Budget::all();
+        return view('front.proj_budget')->with('budget',$budget);
     }
 
     /**
@@ -37,19 +35,19 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'proj_name'=>'required',
-            'start_date'=>'required',
-            'total_cost'=>'required',
-            'proj_owner'=>'required',
-            'proj_engineer'=>'required',
-            'description'=>'required',
+          //
+          $request->validate([
+            'proj_id'=>'required',
+            'cate_id'=>'required',
+            'budg_version'=>'required',
+          
+            'Amount'=>'required',
         ]);
 
-        Project::create($request->all());
+        Budget::create($request->all());
 
-        return redirect()->route('project')
-        ->with('success','Project created successfully');
+        return redirect()->route('budget')
+        ->with('success','Budget created successfully');
     }
 
     /**
@@ -69,9 +67,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit(Budget $budget)
     {
-        return view('project.show',compact('project'));
+        return view('budget.show',compact('budget'));
     }
 
     /**
@@ -81,15 +79,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request,Budget $budget)
     {
         $request->validate([
 
         ]);
 
-        $project->update($request->all());
+        $budget->update($request->all());
         //$employee = Employee::where('id',$employee)->first();
-        return redirect()->route('project')
+        return redirect()->route('budget')
         ->with('success','Updated successfully');
     }
 

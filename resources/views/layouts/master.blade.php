@@ -47,10 +47,10 @@
             <a href="item"><span class="fa fa-sticky-note mr-3"></span> Items</a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-paper-plane mr-3"></span> Project</a>
+            <a href="project"><span class="fa fa-paper-plane mr-3"></span> Project</a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-paper-plane mr-3"></span> Project Budget</a>
+            <a href="budget"><span class="fa fa-paper-plane mr-3"></span> Project Budget</a>
           </li>
         </ul>
 

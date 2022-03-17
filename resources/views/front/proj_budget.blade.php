@@ -80,32 +80,22 @@
                </ul>
              </div>
              @endif
-              <form action="{{route('project.store')}}" method="post">
+              <form action="{{route('budget.store')}}" method="post">
             @csrf
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_name" placeholder="Project Name">
+                  <input class="form-control" type="text" name="proj_id" >
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="date" name="start_date" placeholder="Start Date" >
+                  <input class="form-control" type="text" name="cate_id"  >
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="total_cost" placeholder="Total Cost">
+                  <input class="form-control" type="text" name="budg_version" placeholder="budget version">
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_owner" placeholder="Owner">
+                  <input class="form-control" type="text" name="Amount" placeholder="Amount">
                 </div>
 
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_engineer" placeholder="Engineer">
-                  
-                </div>
-
-                
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="description" placeholder="Description">
-                  
-                </div>
-                
+               
 
                   
               
@@ -137,7 +127,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-danger  border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Project details</h6>
+                <h6 class="text-white text-capitalize ps-3">Project Budget details</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -151,46 +141,38 @@
                   <thead>
                  
                     <tr>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project ID</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Project Name</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">start_date </th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">total_cost</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">proj_owner</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">proj_engineer</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">description</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget ID</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Project ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Category ID </th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget version</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
+                   
                       <th class="text-secondary opacity-15">Actions</th>
                     </tr>
                     
                   </thead>
                   <tbody>
-                  @foreach($project as $proj)
+                  @foreach($budget as $budg)
                     <tr>
                       <td class="align-middle text-center text-sm">
-                      {{$proj->proj_id}}
+                      {{$budg->proj_id}}
                       </td>
                       <td class="align-middle text-center text-sm">
-                      {{$proj->proj_name}}
+                      {{$budg->proj_name}}
                       </td>
                       <td class="align-middle text-center text-sm">
-                      {{$proj->start_date}}
+                      {{$budg->start_date}}
                       </td>
                       <td class="align-middle text-center">
-                      {{$proj->total_cost}}
+                      {{$budg->total_cost}}
                       </td>
                       <td class="align-middle">
                       
-                      {{$proj->proj_owner }}
+                      {{$budg->proj_owner }}
                       </td>
-                      <td class="align-middle text-center text-sm">
-                      {{$proj->proj_engineer}}
-                          
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                      {{$proj->description}}
-                          
-                      </td>
+                     
                       <td class="align-middle">
-                        <a href="{{ route('project.edit',$emp->emp_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
+                        <a href="{{ route('budget.edit',$budg->budg_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
                           <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a>
                           
                       </td>

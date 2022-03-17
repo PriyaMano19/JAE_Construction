@@ -34,3 +34,13 @@ Route::get('/item', 'ItemController@index')->name('item');
 Route::POST('/istore', 'ItemController@store')->name('item.store');
 Route::PUT('/iupdate', 'ItemController@update')->name('item.update');
 Route::get('/iedit', 'ItemController@edit')->name('item.edit');
+
+Route::get('/project', 'ProjectController@index')->name('project');
+Route::POST('/projstore', 'ProjectController@store')->name('project.store');
+Route::PUT('/projupdate', 'ProjectController@update')->name('project.update');
+Route::get('/projedit', 'ProjectController@edit')->name('project.edit');
+
+Route::get('/budget', 'BudgetController@index')->name('budget');
+Route::POST('/budgstore', 'BudgetController@store')->name('budget.store');
+Route::PUT('/budgupdate', 'BudgetController@update')->name('budget.update');
+Route::get('/budgedit', 'BudgetController@edit')->name('budget.edit');
