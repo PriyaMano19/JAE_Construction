@@ -77,6 +77,9 @@
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Date</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Quantity</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Unit Price</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Total</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Transferred To</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Received From</th>
                     </tr>
                     
                   </thead>
@@ -88,6 +91,9 @@
                       <td class="align-middle text-center text-sm"> {{$dsr->date}} </td>
                       <td class="align-middle text-center text-sm"> {{$dsr->qty }} </td>
                       <td class="align-middle text-center text-sm"> {{$dsr->unit_price}} </td>
+                      <td class="align-middle text-center text-sm"> {{$dsr->qty * $dsr->unit_price}} </td>
+                      <td class="align-middle text-center text-sm">  </td>
+                      <td class="align-middle text-center text-sm">  </td>
                     </tr>
                    @endforeach
                   </tbody>

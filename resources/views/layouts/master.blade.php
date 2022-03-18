@@ -52,6 +52,9 @@
           <li>
             <a href="budget"><span class="fa fa-paper-plane mr-3"></span> Project Budget</a>
           </li>
+          <li>
+            <a href="dsreport"><span class="fa fa-paper-plane mr-3"></span> Daily Site Report</a>
+          </li>
         </ul>
 
     	</nav>
