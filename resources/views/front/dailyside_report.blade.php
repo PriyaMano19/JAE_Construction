@@ -85,31 +85,28 @@
                   <input class="form-control" type="date" name="date" placeholder="Date" value="{{date('Y-m-d')}}">
                 </div>
               </div>
-            </div>
-            <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                <select class="form-control" id="cate_id" name="cate_id" required focus>       
-                  @foreach($category as $cat)
-                  <option value="{{$cat->id}}">{{ $cat->cat_name }}</option>
-                  @endforeach
-                </select>
+                  <select class="form-control" id="cate_id" name="cate_id" required focus>       
+                    <option value=""></option>  
+                    @foreach($category as $cat)
+                    <option value="{{$cat->id}}">{{ $cat->cat_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
-                <select class="form-control" id="item_id" name="item_id" required focus>       
-                  @foreach($item as $it)
-                  <option value="{{$it->id}}">{{ $it->item_name }}</option>
-                  @endforeach
-                </select>
+                  <select class="form-control" id="item_id" name="item_id" required focus>  
+                    <option value=""></option>     
+                    @foreach($item as $it)
+                    <option value="{{$it->id}}">{{ $it->item_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
-              </div>
-            </div>
 
             <hr>
             <p><b> &nbsp;&nbsp;&nbsp; Item Received </b></p>
-            <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <input class="form-control" type="text" name="qty" placeholder="Quantity Received" value="">
@@ -118,12 +115,13 @@
                 <div class="m-b-10 col-sm-4">
                   <input class="form-control" type="text" name="unit_price" placeholder="Unit Price" value="">
                 </div>
+                <div class="m-b-10 col-sm-2">
+                <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="ADD">
+                </div>
               </div>
-            </div>
 
             <hr>
             <p><b> &nbsp;&nbsp;&nbsp; Item Transfer </b></p>
-            <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
@@ -132,12 +130,30 @@
                 <div class="m-b-10 col-sm-4">
                   <input class="form-control" type="text" name="transcunitprice" placeholder="Unit Price" value="">
                 </div>
+                <div class="m-b-10 col-sm-2">
+                  <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+            <p><b> &nbsp;&nbsp;&nbsp; Employee </b></p>
+            <div class="form-group">
+              <div class="row">
+                <div class="m-b-10 col-sm-4">
+                  <input class="form-control" type="text" name="employee" placeholder="Employee" value="">
+                </div>
+                <div class="m-b-10 col-sm-2"></div>
+                <div class="m-b-10 col-sm-4"></div>
+                <div class="m-b-10 col-sm-2">
+                <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
+                </div>
               </div>
               </div>
             </div>
+
             <div class="modal-footer">
               <button style="border-radius: 0px;" type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
-              <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="ADD">
             </div>
             </form>
           </div>
