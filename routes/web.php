@@ -47,3 +47,4 @@ Route::PUT('/budgupdate', 'BudgetController@update')->name('budget.update');
 Route::get('/budgedit', 'BudgetController@edit')->name('budget.edit');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
+Route::get('/dsredit', 'DSReportController@edit')->name('dsreport.edit');

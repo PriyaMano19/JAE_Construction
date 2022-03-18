@@ -53,12 +53,19 @@
 </style>
 
 <div class="container-fluid py-4">
+<div class="m-b-10 col-sm-4">
+  <input class="form-control" type="date" name="date" placeholder="Date" value="{{date('Y-m-d')}}">
+</div>
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-danger  border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Daily Site Report</h6>
+                <div class="row">
+                  <div class="col-sm-6"><h6 class="text-white text-capitalize ps-3">Daily Site Report</h6></div>
+                  <div class="col-sm-6 text-right">
+                  <a href="{{ route('dsreport.edit') }}" class="btn btn-outline-dark"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;</div>
+                </div>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -70,8 +77,8 @@
                 @endif
                 <table class="table align-items-center mb-0">
                   <thead>
-                 
                     <tr>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Catogory</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Item </th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Date</th>
@@ -81,11 +88,11 @@
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Transferred To</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Received From</th>
                     </tr>
-                    
                   </thead>
                   <tbody>
                   @foreach($ds_report as $dsr)
                     <tr>
+                      <td class="align-middle text-center text-sm"> {{$dsr->proj_name}} </td>
                       <td class="align-middle text-center text-sm"> {{$dsr->cat_name}} </td>
                       <td class="align-middle text-center text-sm"> {{$dsr->item_name}} </td>
                       <td class="align-middle text-center text-sm"> {{$dsr->date}} </td>
