@@ -82,7 +82,7 @@
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="date" name="date" placeholder="Date" value="">
+                  <input class="form-control" type="date" name="date" placeholder="Date" value="{{date('Y-m-d')}}">
                 </div>
               </div>
             </div>
