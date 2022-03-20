@@ -79,7 +79,7 @@
                 <div class="m-b-10 col-sm-4">
                   <label for="name">Project name:</label>
                   <select class="form-control" id="proj_id" name="proj_id" required focus> 
-                    <option value=""></option> 
+                  <option value=""></option> 
                     @foreach($project as $proj)
                     <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
                     @endforeach

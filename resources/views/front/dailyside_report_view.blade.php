@@ -64,7 +64,7 @@
                 <div class="row">
                   <div class="col-sm-6"><h6 class="text-white text-capitalize ps-3">Daily Site Report</h6></div>
                   <div class="col-sm-6 text-right">
-                  <a href="{{ route('dsreport.edit') }}" class="btn btn-outline-dark"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;</div>
+                  <a href="{{ route('dsreport.add') }}" class="btn btn-outline-dark"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;</div>
                 </div>
               </div>
             </div>

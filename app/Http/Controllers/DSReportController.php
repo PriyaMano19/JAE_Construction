@@ -114,13 +114,11 @@ class DSReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function add()
     {
         $project = Project::all();
-        $category = Budget::select('cate_id')->groupBy('cate_id')->get();
-        $item = Item::all();
         $employee = Employee::all();
-        return view('front.dailyside_report')->with('employee',$employee)->with('project',$project)->with('category',$category)->with('item',$item);
+        return view('front.dailyside_report')->with('employee',$employee)->with('project',$project);
     }
 
     /**
