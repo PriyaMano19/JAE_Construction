@@ -124,23 +124,25 @@
                 </div>
               </div>
             <hr>
-            <p><b> &nbsp;&nbsp;&nbsp; Item Transfer </b></p>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
-                </div>
+                  <label for="transitem">Item Transferred:</label>
+                  <select class="form-control" id="transitem" name="transitem" required focus></select></div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="transcunitprice" placeholder="Unit Price" value="">
+                <label for="transquantity">Transferred Quantity:</label>
+                  <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
                 </div>
               </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
+                <label for="transunitprice">Unit Price:</label>
+                  <input class="form-control" type="text" name="transunitprice" placeholder="Unit Price" value="">
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="transcunitprice" placeholder="Unit Price" value="">
+                <label for="transtotal">Total Amount:</label>
+                  <input class="form-control" id="transtotal" type="text" name="transtotal" placeholder="Total Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
                   <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
@@ -204,6 +206,12 @@
 
     $("#cate_id").change(function(){
       var cate_id = $(this).val();
+      fetchcat(cate_id);
+      fetchcat_trans(cate_id);
+    });
+
+    function fetchcat(cate_id)
+    {
       $.ajax({
         type:'get',
         url:'{!!url('catitem')!!}',
@@ -215,7 +223,22 @@
           });
         }
       });
-    });
+    }
+
+    function fetchcat_trans(cate_id)
+    {
+      $.ajax({
+        type:'get',
+        url:'{!!url('trans_catitem')!!}',
+        data:{'cate_id':cate_id},
+        success:function(response){
+          $('#transitem').find('option').remove().end();
+          $.each(response.items, function(key, item){
+            $('#transitem').append('<option value='+item.item_id+'>'+item.item_id+'</option>');
+          });
+        }
+      });
+    }
 
     $("#qty").change(function(){
       var qty = $(this).val();

@@ -209,4 +209,23 @@ class DSReportController extends Controller
             'items'=>$items,
         ]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function trans_catitem(Request $request)
+    {
+        $cate_id = $request->cate_id;
+        $items = Site_item::groupBy('site_item.item_id')
+        ->join('daily_site_report', 'site_item.dsreport_id', '=', 'daily_site_report.id')
+        ->selectRaw('sum(qty) as sum, site_item.item_id')
+        ->where('daily_site_report.cate_id',$cate_id)
+        ->having('sum', '>', 0)->get();
+        return response()->json([
+            'items'=>$items,
+        ]);
+    }
 }

@@ -53,3 +53,4 @@ Route::get('/dsrcat', 'DSReportController@dsrcat');
 
 Route::get('/projcat', 'DSReportController@projcat');
 Route::get('/catitem', 'DSReportController@catitem');
+Route::get('/trans_catitem', 'DSReportController@trans_catitem');
