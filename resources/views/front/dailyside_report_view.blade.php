@@ -101,31 +101,43 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
   $(document).ready(function(){
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    id = year + "-" + month + "-" + day;
+
+    fetchdata(id);
 
     $(document).on('change','#date',function(){
       var id = $(this).val();
-      //console.log(id);
+      fetchdata(id);
+      
+    });
+
+    function fetchdata(id)
+    {
       $.ajax({
         type:'get',
-          url:'{!!url('dsrcat')!!}',
-          data:{'id':id},
-          success:function(response){
-            //console.log(response);
-            
-            $.each(response.ds_report, function(key, item){
-              $('tbody').append('<tr>\
-                      <td>'+ item.proj_name+'</td>\
-                      <td>'+ item.cat_name+'</td>\
-                      <td>'+ item.item_name+'</td>\
-                      <td>'+ item.qty+'</td>\
-                      <td>'+ item.unit_price+'</td>\
-                      <td>'+ ( item.unit_price * item.qty )+'</td>\
-                      <td></td>\
-                      <td></td>\
-                    </tr>');
-            });
-          }
-        });
-    })
+        url:'{!!url('dsrcat')!!}',
+        data:{'id':id},
+        success:function(response){
+          //console.log(response);
+          $('tbody').find('tr').remove().end();
+          $.each(response.ds_report, function(key, item){
+            $('tbody').append('<tr>\
+                    <td>'+ item.proj_name+'</td>\
+                    <td>'+ item.cat_name+'</td>\
+                    <td>'+ item.item_name+'</td>\
+                    <td>'+ item.qty+'</td>\
+                    <td>'+ item.unit_price+'</td>\
+                    <td>'+ ( item.unit_price * item.qty )+'</td>\
+                    <td></td>\
+                    <td></td>\
+                  </tr>');
+          });
+        }
+      });
+    }
   })
 </script>

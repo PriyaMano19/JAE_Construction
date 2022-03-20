@@ -197,7 +197,7 @@
         url:'{!!url('projcat')!!}',
         data:{'proj_id':proj_id},
         success:function(response){
-          //console.log(response);
+          $('#cate_id').find('option').remove().end();
           $.each(response.category, function(key, item){
             $('#cate_id').append('<option value='+item.cate_id+'>'+item.cate_id+'</option>');
           });
@@ -212,7 +212,7 @@
         url:'{!!url('catitem')!!}',
         data:{'cate_id':cate_id},
         success:function(response){
-          //console.log(response);
+          $('#item_id').find('option').remove().end();
           $.each(response.items, function(key, item){
             $('#item_id').append('<option value='+item.id+'>'+item.item_name+'</option>');
           });
