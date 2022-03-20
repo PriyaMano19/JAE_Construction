@@ -60,7 +60,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('project.show',compact('project'));
+       // return view('project.show',compact('project'));
     }
 
     /**
@@ -84,7 +84,12 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $request->validate([
-
+            'proj_name'=>'required',
+            'start_date'=>'required',
+            'total_cost'=>'required',
+            'proj_owner'=>'required',
+            'proj_engineer'=>'required',
+            'description'=>'required',
         ]);
 
         $project->update($request->all());

@@ -54,7 +54,7 @@ class ItemController extends Controller
             
         ]);
 
-        item::create($request->all());
+        Item::create($request->all());
 
         return redirect()->route('item')
         ->with('success','item created successfully');
@@ -81,7 +81,9 @@ class ItemController extends Controller
     public function update(Request $request, item $Item)
     {
         $request->validate([
-
+            'item_name'=>'required',
+            'item_description'=>'required',
+            'cat_code'=>'required',
         ]);
 
         $Item->update($request->all());

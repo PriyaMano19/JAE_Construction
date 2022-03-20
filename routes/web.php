@@ -23,6 +23,7 @@ Route::get('/employee', 'EmployeeController@index')->name('employee');
 Route::POST('/store', 'EmployeeController@store')->name('employee.store');
 Route::PUT('/update', 'EmployeeController@update')->name('employee.update');
 Route::get('/edit', 'EmployeeController@edit')->name('employee.edit');
+Route::POST('/changestatus', 'EmployeeController@changestatus');
 
 Route::get('/category', 'CategoryController@index')->name('category');
 Route::POST('/cstore', 'CategoryController@store')->name('category.store');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Budget;
+use App\Category;
+use App\Project;
 use Illuminate\Http\Request;
 
 class BudgetController extends Controller
@@ -14,7 +16,10 @@ class BudgetController extends Controller
     public function index()
     {
         $budget = Budget::all();
-        return view('front.proj_budget')->with('budget',$budget);
+        $project = Project::all();
+        $category = Category::all();
+     
+        return view('front.proj_budget')->with('budget',$budget)->with('project',$project)->with('category',$category);
     }
 
     /**

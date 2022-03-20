@@ -14,6 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+
         $employee = Employee::all();
         return view('front.employee')->with('employee',$employee);
     }
@@ -69,7 +70,10 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Employee $employee)
+
     {
+        //$id=1;
+       // $employee=Employee::where('emp_id',$id)->first();
         return view('front.edit_employee',compact('employee'));
     }
 
@@ -83,6 +87,11 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $request->validate([
+            'emp_name'=>'required',
+            'contact_no'=>'required',
+            'NIC'=>'required',
+            'Skills'=>'required',
+            'Amount'=>'required',
 
         ]);
 
@@ -91,6 +100,12 @@ class EmployeeController extends Controller
         return redirect()->route('employee')
         ->with('success','Updated successfully');
     }
+    public function changestatus(Request $request){
+
+        $employee = Employee::find($request->emp_id);
+        $employee->status = $request->status;
+        $employee->save();
+ }
 
     /**
      * Remove the specified resource from storage.

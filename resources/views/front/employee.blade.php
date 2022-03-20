@@ -52,6 +52,11 @@
 }
 
       </style>
+      
+ 
+   
+   
+ 
 
 
 <button class="btn-plus" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus fa-2xl"></i></button>
@@ -179,6 +184,10 @@
                       {{$emp->Amount}}
                           
                       </td>
+                      <td>
+               <input type="checkbox" dat-id="{{$emp->emp_id}}" class="toggle-class" data-onstyle="success"
+              data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{$emp->status ? 'checked' : '' }}>
+             </td>
                       <td class="align-middle">
                         <a href="{{ route('employee.edit',$emp->emp_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
                           <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a>
