@@ -48,8 +48,8 @@ Route::get('/budgedit', 'BudgetController@edit')->name('budget.edit');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
 Route::get('/dsredit', 'DSReportController@edit')->name('dsreport.edit');
-
-Route::POST('/dsrshow', 'DSReportController@showitem')->name('dsreport.show');
-
-
 Route::get('/dsrcat', 'DSReportController@dsrcat');
+
+
+Route::get('/projcat', 'DSReportController@projcat');
+Route::get('/catitem', 'DSReportController@catitem');

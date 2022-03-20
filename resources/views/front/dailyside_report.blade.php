@@ -71,15 +71,19 @@
                </ul>
              </div>
              @endif
-              <form action="{{route('project.update',$project->proj_id)}}" method="post" >
+              <form action="#" method="post" >
             @csrf
             @method('PUT')
             <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="hidden" name="proj_id" placeholder="Project Name" value="{{$project->proj_id}}">
                   <label for="name">Project name:</label>
-                  <input class="form-control" type="text" name="name" placeholder="Project Name" value="{{$project->proj_name}}">
+                  <select class="form-control" id="proj_id" name="proj_id" required focus> 
+                    <option value=""></option> 
+                    @foreach($project as $proj)
+                    <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
@@ -92,9 +96,6 @@
                   <label for="cate_id">Project Category:</label>
                   <select class="form-control" id="cate_id" name="cate_id" required focus>       
                     <option value=""></option>  
-                    @foreach($category as $cat)
-                    <option value="{{$cat->id}}">{{ $cat->cat_name }}</option>
-                    @endforeach
                   </select>
                 </div>
               </div>
@@ -103,10 +104,7 @@
                 <div class="m-b-10 col-sm-4">
                   <label for="item_id">Received Item:</label>
                   <select class="form-control" id="item_id" name="item_id" required focus>  
-                    <option value=""></option>     
-                    <!--@foreach($item as $it)
-                    <option value="{{$it->id}}">{{ $it->item_name }}</option>
-                    @endforeach-->
+                    <option value=""></option>  
                   </select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
@@ -159,7 +157,7 @@
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="emp_name">Employee Name:</label>
-                  <select class="form-control" id="emp_name" name="emp_name" required focus>  
+                  <select class="form-control" id="emp_name" name="emp_name">  
                     <option value=""></option>     
                     @foreach($employee as $emp)
                     <option value="{{$emp->emp_id}}">{{ $emp->emp_name }}</option>
@@ -191,22 +189,35 @@
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  
-
   $(document).ready(function(){
-    $("#cate_id").change(function(){
-        var catogery = $(this).val();
-        //alert(catogery);
-        $.ajax({
-          url:"{{ url('dsreport.show') }}",
-          type:"POST",
-          cache:false,
-          data:{catogery:catogery},
-          success:function(data){
-            alert(data);
-            //$("#item_id").html(data);
-          }
-        });
+    $("#proj_id").change(function(){
+      var proj_id = $(this).val();
+      $.ajax({
+        type:'get',
+        url:'{!!url('projcat')!!}',
+        data:{'proj_id':proj_id},
+        success:function(response){
+          //console.log(response);
+          $.each(response.category, function(key, item){
+            $('#cate_id').append('<option>'+item.cate_id+'</option>');
+          });
+        }
       });
+    });
+
+    $("#cate_id").change(function(){
+      var cate_id = $(this).val();
+      $.ajax({
+        type:'get',
+        url:'{!!url('catitem')!!}',
+        data:{'cate_id':cate_id},
+        success:function(response){
+          //console.log(response);
+          $.each(response.items, function(key, item){
+            $('#item_id').append('<option>'+item.item_name+'</option>');
+          });
+        }
+      });
+    });
   });
 </script>

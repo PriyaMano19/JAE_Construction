@@ -10,6 +10,7 @@ use App\Item;
 use App\Site_item;
 use App\Daily_site_report;
 use App\Employee;
+use App\Budget;
 
 class DSReportController extends Controller
 {
@@ -115,9 +116,8 @@ class DSReportController extends Controller
      */
     public function edit()
     {
-        $id = 1;
-        $project = Project::where('proj_id',$id)->first();
-        $category = Category::all();
+        $project = Project::all();
+        $category = Budget::select('cate_id')->groupBy('cate_id')->get();
         $item = Item::all();
         $employee = Employee::all();
         return view('front.dailyside_report')->with('employee',$employee)->with('project',$project)->with('category',$category)->with('item',$item);
@@ -174,8 +174,27 @@ class DSReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showitem($id)
+    public function projcat(Request $request)
     {
-        $item = Item::where('proj_id',1)->get();
+        $proj_id = $request->proj_id;
+        $category = Budget::where('proj_id', $proj_id)->get();
+        return response()->json([
+            'category'=>$category,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function catitem(Request $request)
+    {
+        $cate_id = $request->cate_id;
+        $items = Item::where('cat_id', $cate_id)->get();
+        return response()->json([
+            'items'=>$items,
+        ]);
     }
 }
