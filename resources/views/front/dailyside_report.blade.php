@@ -79,7 +79,7 @@
                 <div class="m-b-10 col-sm-4">
                   <label for="name">Project name:</label>
                   <select class="form-control" id="proj_id" name="proj_id" required focus> 
-                  <option value=""></option> 
+                  <option value="">Select Project</option> 
                     @foreach($project as $proj)
                     <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
                     @endforeach
@@ -94,34 +94,30 @@
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="cate_id">Project Category:</label>
-                  <select class="form-control" id="cate_id" name="cate_id" required focus>       
-                    <option value=""></option>  
-                  </select>
+                  <select class="form-control" id="cate_id" name="cate_id" required focus></select>
                 </div>
               </div>
             <hr>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="item_id">Received Item:</label>
-                  <select class="form-control" id="item_id" name="item_id" required focus>  
-                    <option value=""></option>  
-                  </select>
+                  <select class="form-control" id="item_id" name="item_id" required focus></select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
-                  <label for="item_id">Received Item:</label>
-                  <input class="form-control" type="text" name="qty" placeholder="Quantity" value="">
+                  <label for="item_id">Received Quantity:</label>
+                  <input class="form-control" id="qty" type="text" name="qty" placeholder="Quantity" value="">
                 </div>
               </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="unit_price">Unit Price:</label>
-                  <input class="form-control" type="text" name="unit_price" placeholder="Unit Price" value="">
+                  <input class="form-control" id="unit_price" type="text" name="unit_price" placeholder="Unit Price" value="">
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
                   <label for="total_amount">Total Amount:</label>
-                  <input class="form-control" type="text" name="total_amount" placeholder="Total Amount" value="">
+                  <input class="form-control" id="total_amount" type="text" name="total_amount" placeholder="Total Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
                 <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="ADD">
@@ -198,6 +194,7 @@
         data:{'proj_id':proj_id},
         success:function(response){
           $('#cate_id').find('option').remove().end();
+          $('#cate_id').append('<option>Select Category</option>');
           $.each(response.category, function(key, item){
             $('#cate_id').append('<option value='+item.cate_id+'>'+item.cate_id+'</option>');
           });
@@ -218,6 +215,18 @@
           });
         }
       });
+    });
+
+    $("#qty").change(function(){
+      var qty = $(this).val();
+      var unit_price = $("#unit_price").val();
+      $("#total_amount").val(qty*unit_price);
+    });
+
+    $("#unit_price").change(function(){
+      var unit_price = $(this).val();
+      var qty = $("#qty").val();
+      $("#total_amount").val(qty*unit_price);
     });
   });
 </script>

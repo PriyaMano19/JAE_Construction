@@ -53,8 +53,18 @@
 </style>
 
 <div class="container-fluid py-4">
-<div class="m-b-10 col-sm-4">
-  <input class="form-control" id="date" type="date" name="date" placeholder="Date" value="{{$date}}">
+<div class="row">
+  <div class="m-b-10 col-sm-4">
+    <input class="form-control" id="date" type="date" name="date" placeholder="Date" value="{{$date}}">
+  </div>
+  <div class="m-b-10 col-sm-4">
+    <select class="form-control" id="proj_id" name="proj_id" required focus> 
+    <option value="">Select Project</option> 
+      @foreach($project as $proj)
+      <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
+      @endforeach
+    </select>
+  </div>
 </div>
       <div class="row">
         <div class="col-12">
@@ -79,7 +89,7 @@
                   <thead>
                     <tr>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Catogory</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Category</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Item </th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Quantity</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Unit Price</th>
@@ -105,33 +115,39 @@
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    id = year + "-" + month + "-" + day;
-
-    fetchdata(id);
+    selDate = year + "-" + month + "-" + day;
+    selProj = 0;
+    fetchdata(selDate, selProj);
 
     $(document).on('change','#date',function(){
-      var id = $(this).val();
-      fetchdata(id);
-      
+      var selDate = $(this).val();
+      var selProj = $("#proj_id").val();
+      fetchdata(selDate, selProj);
     });
 
-    function fetchdata(id)
+    $("#proj_id").change(function(){
+      var selProj = $(this).val();
+      var selDate = $("#date").val();
+      fetchdata(selDate, selProj);
+    });
+
+    function fetchdata(selDate, selProj)
     {
       $.ajax({
         type:'get',
         url:'{!!url('dsrcat')!!}',
-        data:{'id':id},
+        data:{'selDate':selDate, 'selProj':selProj},
         success:function(response){
           //console.log(response);
           $('tbody').find('tr').remove().end();
           $.each(response.ds_report, function(key, item){
             $('tbody').append('<tr>\
-                    <td>'+ item.proj_name+'</td>\
-                    <td>'+ item.cat_name+'</td>\
-                    <td>'+ item.item_name+'</td>\
-                    <td>'+ item.qty+'</td>\
-                    <td>'+ item.unit_price+'</td>\
-                    <td>'+ ( item.unit_price * item.qty )+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.proj_name+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.cat_name+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.item_name+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.qty+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.unit_price+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ ( item.unit_price * item.qty )+'</td>\
                     <td></td>\
                     <td></td>\
                   </tr>');
