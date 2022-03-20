@@ -19,15 +19,9 @@ class DSReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($request->id == '')
-        {
-            $date = date('Y-m-d');
-        }
-        else{
-            $date = $request->id;
-        }
+        $date = date('Y-m-d');
         $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
         ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
         ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
@@ -146,13 +140,14 @@ class DSReportController extends Controller
         Site_item::where('id', $ds_item)
                 ->update(['dsreport_id' => $ds_id]);
 
-        $project = Project::where('proj_id',$request['proj_id'])->first();
-        $category = Category::all();
-        $item = Item::all();
+        $project = Project::all();
+        //$category = Category::all();
+        //$item = Item::all();
+        $employee = Employee::all();
 
         return view('front.dailyside_report')
         ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('category',$category)->with('item',$item);
+        ->with('project',$project)->with('employee',$employee);
     }
 
     /**

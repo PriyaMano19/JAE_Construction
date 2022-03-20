@@ -71,7 +71,7 @@
                </ul>
              </div>
              @endif
-              <form action="#" method="post" >
+              <form action="{{route('dsreport.update')}}" method="post" >
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -199,7 +199,7 @@
         success:function(response){
           //console.log(response);
           $.each(response.category, function(key, item){
-            $('#cate_id').append('<option>'+item.cate_id+'</option>');
+            $('#cate_id').append('<option value='+item.cate_id+'>'+item.cate_id+'</option>');
           });
         }
       });
@@ -214,7 +214,7 @@
         success:function(response){
           //console.log(response);
           $.each(response.items, function(key, item){
-            $('#item_id').append('<option>'+item.item_name+'</option>');
+            $('#item_id').append('<option value='+item.id+'>'+item.item_name+'</option>');
           });
         }
       });
