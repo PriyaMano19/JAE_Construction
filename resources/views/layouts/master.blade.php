@@ -20,6 +20,7 @@
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{asset('css/style.css')}}">
+
   </head>
   <body>
 		
@@ -66,8 +67,7 @@
           </div>
       </div>
 		</div>
-
-    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     <script src="{{asset('js/popper.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>

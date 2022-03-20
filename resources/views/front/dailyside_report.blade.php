@@ -56,7 +56,7 @@
           <div class="modal-content">
             <div class="modal-header" style="color:white;background-color: #B2022F;">
             <div style="flex-direction:column;">
-              <h4 class="text-center modal-title" style="color:white">Project Site Details</h4>
+              <h4 class="text-center modal-title" style="color:white">Daily Site Details</h4>
             </div>
             </div>
 
@@ -77,16 +77,19 @@
             <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                <input class="form-control" type="hidden" name="proj_id" placeholder="Project Name" value="{{$project->proj_id}}">
+                  <input class="form-control" type="hidden" name="proj_id" placeholder="Project Name" value="{{$project->proj_id}}">
+                  <label for="name">Project name:</label>
                   <input class="form-control" type="text" name="name" placeholder="Project Name" value="{{$project->proj_name}}">
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
+                  <label for="date">Date:</label>
                   <input class="form-control" type="date" name="date" placeholder="Date" value="{{date('Y-m-d')}}">
                 </div>
               </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
+                  <label for="cate_id">Project Category:</label>
                   <select class="form-control" id="cate_id" name="cate_id" required focus>       
                     <option value=""></option>  
                     @foreach($category as $cat)
@@ -94,34 +97,49 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="m-b-10 col-sm-2"></div>
-                <div class="m-b-10 col-sm-4">
-                  <select class="form-control" id="item_id" name="item_id" required focus>  
-                    <option value=""></option>     
-                    @foreach($item as $it)
-                    <option value="{{$it->id}}">{{ $it->item_name }}</option>
-                    @endforeach
-                  </select>
-                </div>
               </div>
-
             <hr>
-            <p><b> &nbsp;&nbsp;&nbsp; Item Received </b></p>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="qty" placeholder="Quantity Received" value="">
+                  <label for="item_id">Received Item:</label>
+                  <select class="form-control" id="item_id" name="item_id" required focus>  
+                    <option value=""></option>     
+                    <!--@foreach($item as $it)
+                    <option value="{{$it->id}}">{{ $it->item_name }}</option>
+                    @endforeach-->
+                  </select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
+                  <label for="item_id">Received Item:</label>
+                  <input class="form-control" type="text" name="qty" placeholder="Quantity" value="">
+                </div>
+              </div>
+              <div class="row">
+                <div class="m-b-10 col-sm-4">
+                  <label for="unit_price">Unit Price:</label>
                   <input class="form-control" type="text" name="unit_price" placeholder="Unit Price" value="">
+                </div>
+                <div class="m-b-10 col-sm-2"></div>
+                <div class="m-b-10 col-sm-4">
+                  <label for="total_amount">Total Amount:</label>
+                  <input class="form-control" type="text" name="total_amount" placeholder="Total Amount" value="">
                 </div>
                 <div class="m-b-10 col-sm-2">
                 <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="ADD">
                 </div>
               </div>
-
             <hr>
             <p><b> &nbsp;&nbsp;&nbsp; Item Transfer </b></p>
+              <div class="row">
+                <div class="m-b-10 col-sm-4">
+                  <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
+                </div>
+                <div class="m-b-10 col-sm-2"></div>
+                <div class="m-b-10 col-sm-4">
+                  <input class="form-control" type="text" name="transcunitprice" placeholder="Unit Price" value="">
+                </div>
+              </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
@@ -137,16 +155,28 @@
             </div>
 
             <hr>
-            <p><b> &nbsp;&nbsp;&nbsp; Employee </b></p>
             <div class="form-group">
               <div class="row">
                 <div class="m-b-10 col-sm-4">
-                  <input class="form-control" type="text" name="employee" placeholder="Employee" value="">
+                  <label for="emp_name">Employee Name:</label>
+                  <select class="form-control" id="emp_name" name="emp_name" required focus>  
+                    <option value=""></option>     
+                    @foreach($employee as $emp)
+                    <option value="{{$emp->emp_id}}">{{ $emp->emp_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
-                <div class="m-b-10 col-sm-2"></div>
-                <div class="m-b-10 col-sm-4"></div>
+                <div class="m-b-10 col-sm-4">
+                  <label for="emp_skill">Employee Skills:</label>
+                  <input class="form-control" type="text" name="emp_skill" placeholder="Employee Skills" value="">
+                </div>
                 <div class="m-b-10 col-sm-2">
-                <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
+                  <label for="emp_amount">Amount:</label>
+                  <input class="form-control" type="text" name="emp_amount" placeholder="Amount" value="">
+                </div>
+                <div class="m-b-10 col-sm-2">
+                  <br>
+                  <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
                 </div>
               </div>
               </div>
@@ -158,3 +188,25 @@
             </form>
           </div>
       @endsection
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  
+
+  $(document).ready(function(){
+    $("#cate_id").change(function(){
+        var catogery = $(this).val();
+        //alert(catogery);
+        $.ajax({
+          url:"{{ url('dsreport.show') }}",
+          type:"POST",
+          cache:false,
+          data:{catogery:catogery},
+          success:function(data){
+            alert(data);
+            //$("#item_id").html(data);
+          }
+        });
+      });
+  });
+</script>

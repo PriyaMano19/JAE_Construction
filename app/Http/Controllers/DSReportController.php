@@ -9,6 +9,7 @@ use App\Category;
 use App\Item;
 use App\Site_item;
 use App\Daily_site_report;
+use App\Employee;
 
 class DSReportController extends Controller
 {
@@ -17,9 +18,15 @@ class DSReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $date = date('Y-m-d');
+        if($request->id == '')
+        {
+            $date = date('Y-m-d');
+        }
+        else{
+            $date = $request->id;
+        }
         $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
         ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
         ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
@@ -29,9 +36,28 @@ class DSReportController extends Controller
         ->orderBy('daily_site_report.proj_id', 'ASC')
         ->orderBy('daily_site_report.cate_id', 'ASC')
         ->get();
-        return view('front.dailyside_report_view')->with('ds_report',$ds_report);
+        //return response()->json($ds_report);
+        return view('front.dailyside_report_view')->with('ds_report',$ds_report)->with('date',$date);
     }
 
+    public function dsrcat(Request $request)
+    {
+        $date = $request->id;
+        $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
+        ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
+        ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
+        ->join('items', 'site_item.item_id', '=', 'items.id')
+        ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price')
+        ->where('daily_site_report.date',$date)
+        ->orderBy('daily_site_report.proj_id', 'ASC')
+        ->orderBy('daily_site_report.cate_id', 'ASC')
+        ->get();
+
+        return response()->json([
+            'ds_report'=>$ds_report,
+        ]);
+        //return view('front.dailyside_report_view',compact(ds_report));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -93,7 +119,8 @@ class DSReportController extends Controller
         $project = Project::where('proj_id',$id)->first();
         $category = Category::all();
         $item = Item::all();
-        return view('front.dailyside_report')->with('project',$project)->with('category',$category)->with('item',$item);
+        $employee = Employee::all();
+        return view('front.dailyside_report')->with('employee',$employee)->with('project',$project)->with('category',$category)->with('item',$item);
     }
 
     /**
@@ -139,5 +166,16 @@ class DSReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showitem($id)
+    {
+        $item = Item::where('proj_id',1)->get();
     }
 }

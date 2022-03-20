@@ -54,7 +54,7 @@
 
 <div class="container-fluid py-4">
 <div class="m-b-10 col-sm-4">
-  <input class="form-control" type="date" name="date" placeholder="Date" value="{{date('Y-m-d')}}">
+  <input class="form-control" id="date" type="date" name="date" placeholder="Date" value="{{$date}}">
 </div>
       <div class="row">
         <div class="col-12">
@@ -81,7 +81,6 @@
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Catogory</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Item </th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Date</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Quantity</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Unit Price</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Total</th>
@@ -90,19 +89,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach($ds_report as $dsr)
-                    <tr>
-                      <td class="align-middle text-center text-sm"> {{$dsr->proj_name}} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->cat_name}} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->item_name}} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->date}} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->qty }} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->unit_price}} </td>
-                      <td class="align-middle text-center text-sm"> {{$dsr->qty * $dsr->unit_price}} </td>
-                      <td class="align-middle text-center text-sm">  </td>
-                      <td class="align-middle text-center text-sm">  </td>
-                    </tr>
-                   @endforeach
                   </tbody>
                 </table>
               </div>
@@ -111,3 +97,35 @@
         </div>
       </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+
+    $(document).on('change','#date',function(){
+      var id = $(this).val();
+      //console.log(id);
+      $.ajax({
+        type:'get',
+          url:'{!!url('dsrcat')!!}',
+          data:{'id':id},
+          success:function(response){
+            //console.log(response);
+            
+            $.each(response.ds_report, function(key, item){
+              $('tbody').append('<tr>\
+                      <td>'+ item.proj_name+'</td>\
+                      <td>'+ item.cat_name+'</td>\
+                      <td>'+ item.item_name+'</td>\
+                      <td>'+ item.qty+'</td>\
+                      <td>'+ item.unit_price+'</td>\
+                      <td>'+ ( item.unit_price * item.qty )+'</td>\
+                      <td></td>\
+                      <td></td>\
+                    </tr>');
+            });
+          }
+        });
+    })
+  })
+</script>
