@@ -58,9 +58,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show()
     {
+<<<<<<< HEAD
        // return view('project.show',compact('project'));
+=======
+        //
+>>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**
@@ -69,9 +73,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit()
     {
-        return view('project.show',compact('project'));
+        //
     }
 
     /**
@@ -81,8 +85,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request)
     {
+<<<<<<< HEAD
         $request->validate([
             'proj_name'=>'required',
             'start_date'=>'required',
@@ -96,6 +101,9 @@ class ProjectController extends Controller
         //$employee = Employee::where('id',$employee)->first();
         return redirect()->route('project')
         ->with('success','Updated successfully');
+=======
+        //
+>>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**

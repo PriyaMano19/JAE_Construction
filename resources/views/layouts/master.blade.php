@@ -20,6 +20,7 @@
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{asset('css/style.css')}}">
+
   </head>
   <body>
 		
@@ -52,6 +53,9 @@
           <li>
             <a href="budget"><span class="fa fa-paper-plane mr-3"></span> Project Budget</a>
           </li>
+          <li>
+            <a href="dsreport"><span class="fa fa-paper-plane mr-3"></span> Daily Site Report</a>
+          </li>
         </ul>
 
     	</nav>
@@ -63,8 +67,7 @@
           </div>
       </div>
 		</div>
-
-    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     <script src="{{asset('js/popper.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>

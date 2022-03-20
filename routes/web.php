@@ -40,8 +40,17 @@ Route::get('/project', 'ProjectController@index')->name('project');
 Route::POST('/projstore', 'ProjectController@store')->name('project.store');
 Route::PUT('/projupdate', 'ProjectController@update')->name('project.update');
 Route::get('/projedit', 'ProjectController@edit')->name('project.edit');
+Route::get('/projshow', 'ProjectController@show')->name('project.show');
 
 Route::get('/budget', 'BudgetController@index')->name('budget');
 Route::POST('/budgstore', 'BudgetController@store')->name('budget.store');
 Route::PUT('/budgupdate', 'BudgetController@update')->name('budget.update');
 Route::get('/budgedit', 'BudgetController@edit')->name('budget.edit');
+
+Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
+Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');
+Route::PUT('/dsrupdate', 'DSReportController@update')->name('dsreport.update');
+Route::get('/dsrcat', 'DSReportController@dsrcat');
+
+Route::get('/projcat', 'DSReportController@projcat');
+Route::get('/catitem', 'DSReportController@catitem');
