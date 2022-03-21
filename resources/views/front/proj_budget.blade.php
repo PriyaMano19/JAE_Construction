@@ -82,12 +82,24 @@
              @endif
               <form action="{{route('budget.store')}}" method="post">
             @csrf
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_id" >
+            <div class="row">
+                <div class="m-b-10 col-sm-4">
+                  <select class="form-control" id="proj_id" name="proj_id" required focus>       
+                    <option value=""></option>  
+                    @foreach($project as $proj)
+                    <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
-                <div class="m-b-10">
-                  <input class="form-control" type="text" name="cate_id"  >
+                <div class="m-b-10 col-sm-4">
+                  <select class="form-control" id="cate_id" name="cate_id" required focus>       
+                    <option value=""></option>  
+                    @foreach($category as $cat)
+                    <option value="{{$cat->id}}">{{ $cat->cat_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
+                
                 <div class="m-b-10">
                   <input class="form-control" type="text" name="budg_version" placeholder="budget version">
                 </div>

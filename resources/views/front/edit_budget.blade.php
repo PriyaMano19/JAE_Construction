@@ -81,11 +81,7 @@
             @method('PUT')
                 
             <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_id" value="{{$budget->proj_id}}">
-                </div>
-                <div class="m-b-10">
-                  <input class="form-control" type="date" name="cate_id"   value="{{$budget->cate_id}}">
-                </div>
+            
                 <div class="m-b-10">
                   <input class="form-control" type="text" name="budg_version" placeholder="budget version"  value="{{$budget->budg_version}}">
                 </div>

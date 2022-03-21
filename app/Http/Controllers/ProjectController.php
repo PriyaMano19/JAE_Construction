@@ -60,7 +60,11 @@ class ProjectController extends Controller
      */
     public function show()
     {
+<<<<<<< HEAD
+       // return view('project.show',compact('project'));
+=======
         //
+>>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**
@@ -83,7 +87,23 @@ class ProjectController extends Controller
      */
     public function update(Request $request)
     {
+<<<<<<< HEAD
+        $request->validate([
+            'proj_name'=>'required',
+            'start_date'=>'required',
+            'total_cost'=>'required',
+            'proj_owner'=>'required',
+            'proj_engineer'=>'required',
+            'description'=>'required',
+        ]);
+
+        $project->update($request->all());
+        //$employee = Employee::where('id',$employee)->first();
+        return redirect()->route('project')
+        ->with('success','Updated successfully');
+=======
         //
+>>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**
