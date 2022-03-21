@@ -149,7 +149,7 @@
                     <td class="text-center text-secondary text-xs">'+ item.unit_price+'</td>\
                     <td class="text-center text-secondary text-xs">'+ ( item.unit_price * item.qty )+'</td>\
                     <td class="text-center text-secondary text-xs">'+ ( item.transfer_proj_id )+'</td>\
-                    <td></td>\
+                    <td class="text-center text-secondary text-xs">'+ ( item.received_proj_id )+'</td>\
                   </tr>');
           });
         }

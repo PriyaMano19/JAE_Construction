@@ -150,7 +150,7 @@
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="name">Transferred Project name:</label>
-                  <select class="form-control" id="transfer_proj_id" name="transfer_proj_id" required focus> 
+                  <select class="form-control" id="transfer_proj_id" name="transfer_proj_id"> 
                   <option value="">Select Project</option> 
                     @foreach($project as $proj)
                     <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>

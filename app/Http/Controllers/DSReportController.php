@@ -23,17 +23,7 @@ class DSReportController extends Controller
     {
         $project = Project::all();
         $date = date('Y-m-d');
-        $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
-        ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
-        ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-        ->join('items', 'site_item.item_id', '=', 'items.id')
-        ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price')
-        ->where('daily_site_report.date',$date)
-        ->orderBy('daily_site_report.proj_id', 'ASC')
-        ->orderBy('daily_site_report.cate_id', 'ASC')
-        ->get();
-        //return response()->json($ds_report);
-        return view('front.dailyside_report_view')->with('ds_report',$ds_report)->with('date',$date)->with('project',$project);
+        return view('front.dailyside_report_view')->with('date',$date)->with('project',$project);
     }
 
     public function dsrcat(Request $request)
@@ -47,7 +37,7 @@ class DSReportController extends Controller
             ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
             ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
             ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id')
+            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id','site_item.received_proj_id')
             ->where('daily_site_report.date',$date)
             ->where('daily_site_report.proj_id',$proj)
             ->orderBy('daily_site_report.proj_id', 'ASC')
@@ -61,7 +51,7 @@ class DSReportController extends Controller
             ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
             ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
             ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id')
+            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id','site_item.received_proj_id')
             ->where('daily_site_report.date',$date)
             ->orderBy('daily_site_report.proj_id', 'ASC')
             ->orderBy('daily_site_report.cate_id', 'ASC')
@@ -145,6 +135,7 @@ class DSReportController extends Controller
      */
     public function update(Request $request)
     {
+        $request['transfer_proj_id'] = 0;
         $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
         
         if($ds_ids > 0)
@@ -195,6 +186,29 @@ class DSReportController extends Controller
         
         Site_item::where('id', $ds_item)
                 ->update(['dsreport_id' => $ds_id]);
+
+                //Trans
+        $ds_id_trans = Daily_site_report::where('proj_id', $request['transfer_proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        if($ds_id_trans > 0)
+        {
+        }
+        else
+        {
+            Daily_site_report::insert([
+                'proj_id' => $request['transfer_proj_id'],
+                'cate_id' => $request['cate_id'],
+                'date' => $request['date']
+            ]);
+        }
+        $ds_id = Daily_site_report::where('proj_id', $request['transfer_proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        $trans_qty = $request['qty']*-1;
+        Site_item::insert([
+            'dsreport_id' => $ds_id,
+            'item_id' => $request['item_id'],
+            'qty' => $trans_qty,
+            'unit_price' => $request['unit_price'],
+            'received_proj_id' => $request['proj_id']
+        ]);
 
         $project = Project::all();
         $employee = Employee::all();
