@@ -52,8 +52,12 @@
 }
 </style>
 
+
 <div class="container-fluid py-4">
 <div class="row">
+<div class="m-b-10 col-sm-4">
+    <a href="{{ route('dsreport.add') }}" class="btn-plus" ><i class="fa fa-plus fa-2xl"></i></a>
+  </div>
   <div class="m-b-10 col-sm-4">
     <input class="form-control" id="date" type="date" name="date" placeholder="Date" value="{{$date}}">
   </div>
@@ -73,9 +77,9 @@
               <div class="bg-danger  border-radius-lg pt-4 pb-3">
                 <div class="row">
                   <div class="col-sm-6"><h6 class="text-white text-capitalize ps-3">Daily Site Report</h6></div>
-                  <div class="col-sm-6 text-right">
+                  <!-- <div class="col-sm-6 text-right">
                   <a href="{{ route('dsreport.add') }}" class="btn btn-outline-dark"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;</div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="card-body px-0 pb-2">

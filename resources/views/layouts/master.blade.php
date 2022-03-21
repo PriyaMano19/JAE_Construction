@@ -33,7 +33,7 @@
 	        </button>
         </div>
         <img class="logo-img" src="{{('img/LOGO.png')}}" alt="Paris">
-	  		<h1><a href="index.html" class="logo">JAE Construction</a></h1>
+	  		<h1><a href="index.html" class="logo">JAFFNA ARCHITECT & ENGINEERS</a></h1>
         <ul class="list-unstyled components mb-5">
           <li class="active">
             <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
