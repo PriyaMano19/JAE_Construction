@@ -55,7 +55,7 @@ class DSReportController extends Controller
             ->where('daily_site_report.date',$date)
             ->orderBy('daily_site_report.proj_id', 'ASC')
             ->orderBy('daily_site_report.cate_id', 'ASC')
-            
+            ->orderBy('site_item.transfer_proj_id', 'ASC')
             ->get();
         }
 
@@ -123,7 +123,11 @@ class DSReportController extends Controller
     {
         $project = Project::all();
         $employee = Employee::all();
-        return view('front.dailyside_report')->with('employee',$employee)->with('project',$project);
+        $sel_project = 0;
+        $sel_category = 0;
+        return view('front.dailyside_report')
+        ->with('employee',$employee)->with('project',$project)
+        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
     }
 
     /**
@@ -153,13 +157,14 @@ class DSReportController extends Controller
                 ->update(['dsreport_id' => $ds_id]);
 
         $project = Project::all();
-        //$category = Category::all();
-        //$item = Item::all();
         $employee = Employee::all();
+        $sel_project = $request['proj_id'];
+        $sel_category = $request['cate_id'];
 
         return view('front.dailyside_report')
         ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('employee',$employee);
+        ->with('project',$project)->with('employee',$employee)
+        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
     }
 
     /**
@@ -212,10 +217,13 @@ class DSReportController extends Controller
 
         $project = Project::all();
         $employee = Employee::all();
+        $sel_project = $request['proj_id'];
+        $sel_category = $request['cate_id'];
 
         return view('front.dailyside_report')
         ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('employee',$employee);
+        ->with('project',$project)->with('employee',$employee)
+        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
     }
 
     /**
@@ -238,7 +246,10 @@ class DSReportController extends Controller
     public function projcat(Request $request)
     {
         $proj_id = $request->proj_id;
-        $category = Budget::where('proj_id', $proj_id)->get();
+        $category = Budget::join('categories', 'proj_budgets.cate_id', '=', 'categories.id')
+        ->select('proj_budgets.cate_id','categories.cat_name')
+        ->where('proj_budgets.proj_id', $proj_id)
+        ->get();
         return response()->json([
             'category'=>$category,
         ]);

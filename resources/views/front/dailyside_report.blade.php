@@ -81,7 +81,7 @@
                   <select class="form-control" id="proj_id" name="proj_id" required focus> 
                   <option value="">Select Project</option> 
                     @foreach($project as $proj)
-                    <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
+                    <option @if($proj->proj_id == $sel_project) selected="selected" @endif value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -122,6 +122,7 @@
                   <input class="form-control" id="total_amount" type="text" name="total_amount" placeholder="Total Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
+                <label for="add_received">&nbsp;</label><br>
                 <input type="submit" name="add_received" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addreceived')}}">
                 </div>
               </div>
@@ -159,6 +160,7 @@
                 </div>
                 <div class="m-b-10 col-sm-6"></div>
                 <div class="m-b-10 col-sm-2">
+                <label for="add_trans">&nbsp;</label><br>
                 <input type="submit" name="add_trans" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addtrans')}}">
                 </div>
               </div>
@@ -185,7 +187,7 @@
                   <input class="form-control" type="text" name="emp_amount" placeholder="Amount" value="">
                 </div>
                 <div class="m-b-10 col-sm-2">
-                  <br>
+                  <label for="add_trans">&nbsp;</label><br>
                   <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
                 </div>
               </div>
@@ -212,7 +214,7 @@
           $('#cate_id').find('option').remove().end();
           $('#cate_id').append('<option>Select Category</option>');
           $.each(response.category, function(key, item){
-            $('#cate_id').append('<option value='+item.cate_id+'>'+item.cate_id+'</option>');
+            $('#cate_id').append('<option value='+item.cate_id+'>'+item.cat_name+'</option>');
           });
         }
       });
