@@ -67,7 +67,9 @@
           </div>
       </div>
 		</div>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+
+    <!-- need to update-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="{{asset('js/popper.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
