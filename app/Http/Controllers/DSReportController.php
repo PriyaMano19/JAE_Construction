@@ -170,6 +170,39 @@ class DSReportController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function trans(Request $request)
+    {
+        $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        
+        if($ds_ids > 0)
+        {
+        }
+        else
+        {
+            Daily_site_report::create($request->all());
+        }
+        Site_item::create($request->all());
+        $ds_id = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        $ds_item = Site_item::where('item_id', $request['item_id'])->where('qty', $request['qty'])->where('unit_price', $request['unit_price'])->max('id');
+        
+        Site_item::where('id', $ds_item)
+                ->update(['dsreport_id' => $ds_id]);
+
+        $project = Project::all();
+        $employee = Employee::all();
+
+        return view('front.dailyside_report')
+        ->with('success','Site Details created successfully')
+        ->with('project',$project)->with('employee',$employee);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

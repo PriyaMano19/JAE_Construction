@@ -101,18 +101,20 @@
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="item_id">Received Item:</label>
-                  <select class="form-control" id="item_id" name="item_id" required focus></select>
+                  <select class="form-control" id="item_id" name="item_id"></select>
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
                   <label for="item_id">Received Quantity:</label>
-                  <input class="form-control" id="qty" type="text" name="qty" placeholder="Quantity" value="">
+                  <input class="form-control" id="qty" type="hidden" name="qty">
+                  <input class="form-control" id="recqty" type="text" placeholder="Quantity" value="">
                 </div>
               </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="unit_price">Unit Price:</label>
-                  <input class="form-control" id="unit_price" type="text" name="unit_price" placeholder="Unit Price" value="">
+                  <input class="form-control" id="unit_price" type="hidden" name="unit_price">
+                  <input class="form-control" id="recunit_price" type="text" placeholder="Unit Price" value="">
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
@@ -120,24 +122,24 @@
                   <input class="form-control" id="total_amount" type="text" name="total_amount" placeholder="Total Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
-                <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="ADD">
+                <input type="submit" name="add_received" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addreceived')}}">
                 </div>
               </div>
             <hr>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="transitem">Item Transferred:</label>
-                  <select class="form-control" id="transitem" name="transitem" required focus></select></div>
+                  <select class="form-control" id="transitem" name="transitem"></select></div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
                 <label for="transquantity">Transferred Quantity:</label>
-                  <input class="form-control" type="text" name="transquantity" placeholder="Quantity Transfer" value="">
+                  <input class="form-control" type="text" id="transquantity" placeholder="Quantity Transfer" value="">
                 </div>
               </div>
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                 <label for="transunitprice">Unit Price:</label>
-                  <input class="form-control" type="text" name="transunitprice" placeholder="Unit Price" value="">
+                  <input class="form-control" type="text" id="transunitprice" placeholder="Unit Price" value="">
                 </div>
                 <div class="m-b-10 col-sm-2"></div>
                 <div class="m-b-10 col-sm-4">
@@ -145,7 +147,7 @@
                   <input class="form-control" id="transtotal" type="text" name="transtotal" placeholder="Total Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
-                  <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
+                <input type="submit" name="add_trans" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addtrans')}}">
                 </div>
               </div>
             </div>
@@ -240,16 +242,38 @@
       });
     }
 
-    $("#qty").change(function(){
+    $("#recunit_price").change(function(){
+      var unit_price = $(this).val();
+      $("#unit_price").val(unit_price);
+    });
+
+    $("#transunitprice").change(function(){
+      var unit_price = $(this).val();
+      $("#unit_price").val(unit_price);
+    });
+
+    $("#recqty").change(function(){
       var qty = $(this).val();
-      var unit_price = $("#unit_price").val();
+      $("#qty").val(qty);
+    });
+
+    $("#transquantity").change(function(){
+      var qty = $(this).val();
+      $("#qty").val(qty*-1);
+    });
+
+    $("#recqty").change(function(){
+      var qty = $(this).val();
+      var unit_price = $("#recunit_price").val();
       $("#total_amount").val(qty*unit_price);
     });
 
-    $("#unit_price").change(function(){
+    $("#recunit_price").change(function(){
       var unit_price = $(this).val();
-      var qty = $("#qty").val();
+      var qty = $("#recqty").val();
       $("#total_amount").val(qty*unit_price);
     });
+
+    
   });
 </script>
