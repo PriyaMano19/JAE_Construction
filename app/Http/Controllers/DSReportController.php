@@ -47,11 +47,12 @@ class DSReportController extends Controller
             ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
             ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
             ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price')
+            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id')
             ->where('daily_site_report.date',$date)
             ->where('daily_site_report.proj_id',$proj)
             ->orderBy('daily_site_report.proj_id', 'ASC')
             ->orderBy('daily_site_report.cate_id', 'ASC')
+            ->orderBy('site_item.transfer_proj_id', 'ASC')
             ->get();
         }
         else
@@ -60,10 +61,11 @@ class DSReportController extends Controller
             ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
             ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
             ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price')
+            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id')
             ->where('daily_site_report.date',$date)
             ->orderBy('daily_site_report.proj_id', 'ASC')
             ->orderBy('daily_site_report.cate_id', 'ASC')
+            
             ->get();
         }
 

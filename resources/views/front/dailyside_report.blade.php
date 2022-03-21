@@ -146,6 +146,18 @@
                 <label for="transtotal">Total Amount:</label>
                   <input class="form-control" id="transtotal" type="text" name="transtotal" placeholder="Total Amount" readonly>
                 </div>
+              </div>
+              <div class="row">
+                <div class="m-b-10 col-sm-4">
+                  <label for="name">Transferred Project name:</label>
+                  <select class="form-control" id="transfer_proj_id" name="transfer_proj_id" required focus> 
+                  <option value="">Select Project</option> 
+                    @foreach($project as $proj)
+                    <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="m-b-10 col-sm-6"></div>
                 <div class="m-b-10 col-sm-2">
                 <input type="submit" name="add_trans" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addtrans')}}">
                 </div>
@@ -242,23 +254,17 @@
       });
     }
 
-    $("#recunit_price").change(function(){
-      var unit_price = $(this).val();
-      $("#unit_price").val(unit_price);
-    });
-
     $("#transunitprice").change(function(){
       var unit_price = $(this).val();
+      var qty = $("#transquantity").val();
+      $("#transtotal").val(qty*unit_price*-1);
       $("#unit_price").val(unit_price);
-    });
-
-    $("#recqty").change(function(){
-      var qty = $(this).val();
-      $("#qty").val(qty);
     });
 
     $("#transquantity").change(function(){
       var qty = $(this).val();
+      var unit_price = $("#transunitprice").val();
+      $("#transtotal").val(qty*unit_price*-1);
       $("#qty").val(qty*-1);
     });
 
@@ -266,12 +272,14 @@
       var qty = $(this).val();
       var unit_price = $("#recunit_price").val();
       $("#total_amount").val(qty*unit_price);
+      $("#qty").val(qty);
     });
 
     $("#recunit_price").change(function(){
       var unit_price = $(this).val();
       var qty = $("#recqty").val();
       $("#total_amount").val(qty*unit_price);
+      $("#unit_price").val(unit_price);
     });
 
     

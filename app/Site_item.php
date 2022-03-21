@@ -8,5 +8,5 @@ class Site_item extends Model
 {
     public $timestamps = false;
     protected $table = 'site_item';
-    protected $fillable = ['item_id', 'qty','unit_price'];
+    protected $fillable = ['item_id', 'qty','unit_price','transfer_proj_id'];
 }
