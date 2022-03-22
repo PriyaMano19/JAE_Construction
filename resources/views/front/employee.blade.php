@@ -157,6 +157,7 @@
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">NIC</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Skills</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">status</th>
                       <th class="text-secondary opacity-15">Actions</th>
                     </tr>
                     
@@ -184,7 +185,7 @@
                       {{$emp->Amount}}
                           
                       </td>
-                      <td>
+                      <td class="align-middle text-center text-sm">
                <input type="checkbox" dat-id="{{$emp->emp_id}}" class="toggle-class" data-onstyle="success"
               data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{$emp->status ? 'checked' : '' }}>
              </td>

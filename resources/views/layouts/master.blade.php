@@ -32,8 +32,12 @@
 	          <span class="sr-only">Toggle Menu</span>
 	        </button>
         </div>
-        <img class="logo-img" src="{{('img/LOGO.png')}}" alt="Paris">
-	  		<h1><a href="index.html" class="logo">JAFFNA ARCHITECT & ENGINEERS</a></h1>
+        <img class="logo-img" src="{{('img/LOGO.png')}}" style="margin-bottom: 20px;" alt="Paris">
+      
+	  		<h1>
+          <a href="index.html" class="logo" style="margin-left:70px; ">JAFFNA</a>
+        <a href="index.html" class="logo">ARCHITECT&ENGINEERS</a>
+      </h1>
         <ul class="list-unstyled components mb-5">
           <li class="active">
             <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
@@ -45,16 +49,16 @@
             <a href="category"><span class="fa fa-sticky-note mr-3"></span> Category</a>
           </li>
           <li>
-            <a href="item"><span class="fa fa-sticky-note mr-3"></span> Items</a>
+            <a href="item"><span class="fa fa-file-text mr-3"></span> Items</a>
           </li>
           <li>
             <a href="project"><span class="fa fa-paper-plane mr-3"></span> Project</a>
           </li>
           <li>
-            <a href="budget"><span class="fa fa-paper-plane mr-3"></span> Project Budget</a>
+            <a href="budget"><span class="fa fa-money mr-3"></span> Project Budget</a>
           </li>
           <li>
-            <a href="dsreport"><span class="fa fa-paper-plane mr-3"></span> Daily Site Report</a>
+            <a href="dsreport"><span class="fa fa-book mr-3"></span> Daily Site Report</a>
           </li>
         </ul>
 

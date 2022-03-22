@@ -21,31 +21,31 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employee', 'EmployeeController@index')->name('employee');
 Route::POST('/store', 'EmployeeController@store')->name('employee.store');
-Route::PUT('/update', 'EmployeeController@update')->name('employee.update');
-Route::get('/edit', 'EmployeeController@edit')->name('employee.edit');
+Route::PUT('/update/{id}', 'EmployeeController@update')->name('employee.update');
+Route::get('/edit/{id}', 'EmployeeController@edit')->name('employee.edit');
 Route::POST('/changestatus', 'EmployeeController@changestatus');
 
 Route::get('/category', 'CategoryController@index')->name('category');
 Route::POST('/cstore', 'CategoryController@store')->name('category.store');
-Route::PUT('/cupdate', 'CategoryController@update')->name('category.update');
-Route::get('/cedit', 'CategoryController@edit')->name('category.edit');
+Route::PUT('/cupdate/{id}', 'CategoryController@update')->name('category.update');
+Route::get('/cedit/{id}', 'CategoryController@edit')->name('category.edit');
 
 
 Route::get('/item', 'ItemController@index')->name('item');
 Route::POST('/istore', 'ItemController@store')->name('item.store');
-Route::PUT('/iupdate', 'ItemController@update')->name('item.update');
-Route::get('/iedit', 'ItemController@edit')->name('item.edit');
+Route::PUT('/iupdate/{id}', 'ItemController@update')->name('item.update');
+Route::get('/iedit/{id}', 'ItemController@edit')->name('item.edit');
 
 Route::get('/project', 'ProjectController@index')->name('project');
 Route::POST('/projstore', 'ProjectController@store')->name('project.store');
-Route::PUT('/projupdate', 'ProjectController@update')->name('project.update');
-Route::get('/projedit', 'ProjectController@edit')->name('project.edit');
-Route::get('/projshow', 'ProjectController@show')->name('project.show');
+Route::PUT('/projupdate/{id}', 'ProjectController@update')->name('project.update');
+Route::get('/projedit/{id}', 'ProjectController@edit')->name('project.edit');
+//Route::get('/projshow', 'ProjectController@show')->name('project.show');
 
 Route::get('/budget', 'BudgetController@index')->name('budget');
 Route::POST('/budgstore', 'BudgetController@store')->name('budget.store');
-Route::PUT('/budgupdate', 'BudgetController@update')->name('budget.update');
-Route::get('/budgedit', 'BudgetController@edit')->name('budget.edit');
+Route::PUT('/budgupdate/{id}', 'BudgetController@update')->name('budget.update');
+Route::get('/budgedit/{id}', 'BudgetController@edit')->name('budget.edit');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
 Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');

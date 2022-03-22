@@ -69,11 +69,12 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit(int  $id)
 
     {
         //$id=1;
-       // $employee=Employee::where('emp_id',$id)->first();
+       $employee=Employee::where('emp_id',$id)->first();
+       
         return view('front.edit_employee',compact('employee'));
     }
 
@@ -84,7 +85,7 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, int $id)
     {
         $request->validate([
             'emp_name'=>'required',
@@ -92,11 +93,18 @@ class EmployeeController extends Controller
             'NIC'=>'required',
             'Skills'=>'required',
             'Amount'=>'required',
-
         ]);
 
-        $employee->update($request->all());
-        //$employee = Employee::where('id',$employee)->first();
+        
+        $employee = Employee::where('emp_id',$id)->get();
+      //  $employee->update($request->all());
+        Employee::where('emp_id', $id)->update([
+            'emp_name' => $request['emp_name'],
+            'contact_no'=> $request['contact_no'],
+            'NIC'=> $request['NIC'],
+            'Skills'=> $request['Skills'],
+            'Amount'=> $request['Amount'],
+        ]);
         return redirect()->route('employee')
         ->with('success','Updated successfully');
     }

@@ -72,9 +72,10 @@ class BudgetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Budget $budget)
+    public function edit(int $id)
     {
-        return view('budget.show',compact('budget'));
+        $budget=Budget::where('budg_id',$id)->first();
+        return view('front.edit_budget',compact('budget'));
     }
 
     /**
@@ -84,14 +85,25 @@ class BudgetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Budget $budget)
+    public function update(Request $request,int $id)
     {
         $request->validate([
-
+            'proj_id'=>'required',
+            'cate_id'=>'required',
+            'budg_version'=>'required',
+          
+            'Amount'=>'required',
         ]);
 
-        $budget->update($request->all());
-        //$employee = Employee::where('id',$employee)->first();
+        $budget = Budget::where('budg_id',$id)->get();
+      
+        Budget::where('budg_id', $id)->update([
+              'proj_id' => $request['proj_id'],
+              'cate_id'=> $request['cate_id'],
+              'budg_version'=> $request['budg_version'],
+              'Amount'=> $request['Amount'],
+              
+          ]);
         return redirect()->route('budget')
         ->with('success','Updated successfully');
     }

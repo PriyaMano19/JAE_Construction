@@ -80,20 +80,20 @@
             @csrf
             @method('PUT')
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="name" placeholder="Your Name" value="{{$employee->emp_name}}">
+                  <input class="form-control" type="text" name="emp_name" placeholder="Your Name" value="{{$employee->emp_name}}">
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="phone" placeholder="Contact Number" value="{{$employee->contact_no}}">
+                  <input class="form-control" type="text" name="contact_no" placeholder="Contact Number" value="{{$employee->contact_no}}">
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="nic" placeholder="NIC Number" value="{{$employee->NIC}}">
+                  <input class="form-control" type="text" name="NIC" placeholder="NIC Number" value="{{$employee->NIC}}">
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="skills" placeholder="skills" value="{{$employee->Skills}}">
+                  <input class="form-control" type="text" name="Skills" placeholder="skills" value="{{$employee->Skills}}">
                 </div>
 
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="amount" placeholder="Amount" value="{{$employee->Amount}}">
+                  <input class="form-control" type="text" name="Amount" placeholder="Amount" value="{{$employee->Amount}}">
                   
                 </div>
 

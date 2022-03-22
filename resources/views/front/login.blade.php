@@ -37,8 +37,8 @@ body {
     width: 100%;
     height: 80px;
     object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
+    border-radius: 100%;
+    
 }
 
 .wrapper .name {
@@ -64,7 +64,8 @@ body {
     padding-left: 10px;
     margin-bottom: 20px;
     border-radius: 20px;
-    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff
+    box-shadow: inset 1px 1px 1px #cbced1, inset -3px -3px 3px #fff;
+
 }
 
 .wrapper .form-field .fas {
@@ -78,7 +79,7 @@ body {
     background-color: #B2022F;
     color: #fff;
     border-radius: 25px;
-    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    box-shadow: 10px 3px 20px #cbced1, -5px -5px 10px #fff;
     letter-spacing: 1.3px
 }
 

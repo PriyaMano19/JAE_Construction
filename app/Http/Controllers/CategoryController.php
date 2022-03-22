@@ -66,8 +66,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(int $id)
+    
     {
+        $category=Category::where('id',$id)->first();
         return view('front.edit_category',compact('category'));
     }
 
@@ -78,15 +80,20 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, int $id)
     {
         $request->validate([
             'cat_name'=>'required',
             'cat_description'=>'required',
             
         ]);
+        $category = Category::where('id',$id)->get();
 
-        $category->update($request->all());
+        Category::where('id', $id)->update([
+            'cat_name' => $request['cat_name'],
+            'cat_description'=> $request['cat_description'],
+            
+        ]);
 
         return redirect()->route('category')
         ->with('success','Updated successfully');

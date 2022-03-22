@@ -60,11 +60,7 @@ class ProjectController extends Controller
      */
     public function show()
     {
-<<<<<<< HEAD
        // return view('project.show',compact('project'));
-=======
-        //
->>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**
@@ -73,9 +69,11 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(int $id)
     {
-        //
+        $project=Project::where('proj_id',$id)->first();
+       
+        return view('front.edit_project',compact('project'));
     }
 
     /**
@@ -85,9 +83,8 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request ,int $id)
     {
-<<<<<<< HEAD
         $request->validate([
             'proj_name'=>'required',
             'start_date'=>'required',
@@ -96,14 +93,18 @@ class ProjectController extends Controller
             'proj_engineer'=>'required',
             'description'=>'required',
         ]);
-
-        $project->update($request->all());
-        //$employee = Employee::where('id',$employee)->first();
+        $project = Project::where('proj_id',$id)->get();
+      
+          Project::where('proj_id', $id)->update([
+              'proj_name' => $request['proj_name'],
+              'start_date'=> $request['start_date'],
+              'total_cost'=> $request['total_cost'],
+              'proj_owner'=> $request['proj_owner'],
+              'proj_engineer'=> $request['proj_engineer'],
+              'description'=> $request['description'],
+          ]);
         return redirect()->route('project')
         ->with('success','Updated successfully');
-=======
-        //
->>>>>>> bb9a308132425b2872710488982f86ec50ecbe12
     }
 
     /**

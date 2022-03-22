@@ -88,8 +88,14 @@
                   
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="cat_code" placeholder="category Code" value="{{$item->cat_code}}" >
-                  
+                 <!-- <input class="form-control" type="text" name="cat_id" placeholder="category Code" value="{{$item->cat_id}}" > -->
+                  <select class="form-control" id="cat_id" name="cat_id"  required focus>       
+                    <option value="">select category</option>  
+                    @foreach($category as $cat)
+                   
+                    <option value="{{$cat->id}}">{{ $cat->cat_name }}</option>
+                    @endforeach
+                  </select>
                 </div>
                 
 
