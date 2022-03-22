@@ -8,6 +8,7 @@ use App\Project;
 use App\Category;
 use App\Item;
 use App\Site_item;
+use App\Site_employee;
 use App\Daily_site_report;
 use App\Employee;
 use App\Budget;
@@ -63,6 +64,40 @@ class DSReportController extends Controller
             'ds_report'=>$ds_report,
         ]);
         //return view('front.dailyside_report_view',compact(ds_report));
+    }
+
+    public function dsrcatemp(Request $request)
+    {
+        $date = $request->selDate;
+        $proj = $request->selProj;
+        
+        if($proj > 0)
+        {
+            $ds_report = Daily_site_report::join('site_employee', 'daily_site_report.id', '=', 'site_employee.dsreport_id')
+            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
+            ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
+            ->select('projects.proj_name','employees.emp_name','employees.Skills','employees.Amount','daily_site_report.date')
+            ->where('daily_site_report.date',$date)
+            ->where('daily_site_report.proj_id',$proj)
+            ->orderBy('daily_site_report.proj_id', 'ASC')
+            ->orderBy('employees.emp_id', 'ASC')
+            ->get();
+        }
+        else
+        {
+            $ds_report = Daily_site_report::join('site_employee', 'daily_site_report.id', '=', 'site_employee.dsreport_id')
+            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
+            ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
+            ->select('projects.proj_name','employees.emp_name','employees.Skills','employees.Amount','daily_site_report.date')
+            ->where('daily_site_report.date',$date)
+            ->orderBy('daily_site_report.proj_id', 'ASC')
+            ->orderBy('employees.emp_id', 'ASC')
+            ->get();
+        }
+
+        return response()->json([
+            'ds_report'=>$ds_report,
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -127,6 +162,43 @@ class DSReportController extends Controller
         $sel_category = 0;
         return view('front.dailyside_report')
         ->with('employee',$employee)->with('project',$project)
+        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addemployee(Request $request)
+    {
+        $request['transfer_proj_id'] = 0;
+        $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        
+        if($ds_ids > 0)
+        {
+        }
+        else
+        {
+            Daily_site_report::create($request->all());
+        }
+        Site_employee::create($request->all());
+        $ds_id = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
+        $ds_emp = Site_employee::where('dsreport_id', 0)->where('emp_id', $request['emp_id'])->max('id');
+        
+        Site_employee::where('id', $ds_emp)
+                ->update(['dsreport_id' => $ds_id]);
+
+        $project = Project::all();
+        $employee = Employee::all();
+        $sel_project = $request['proj_id'];
+        $sel_category = $request['cate_id'];
+
+        return view('front.dailyside_report')
+        ->with('success','Site Details created successfully')
+        ->with('project',$project)->with('employee',$employee)
         ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
     }
 
@@ -286,6 +358,21 @@ class DSReportController extends Controller
         ->having('sum', '>', 0)->get();
         return response()->json([
             'items'=>$items,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function empdetails(Request $request)
+    {
+        $emp_id = $request->emp_id;
+        $employee = Employee::where('emp_id', $emp_id)->get();
+        return response()->json([
+            'emp'=>$employee,
         ]);
     }
 }
