@@ -171,7 +171,7 @@
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="emp_name">Employee Name:</label>
-                  <select class="form-control" id="emp_name" name="emp_name">  
+                  <select class="form-control" id="emp_name" name="emp_id">  
                     <option value=""></option>     
                     @foreach($employee as $emp)
                     <option value="{{$emp->emp_id}}">{{ $emp->emp_name }}</option>
@@ -180,15 +180,15 @@
                 </div>
                 <div class="m-b-10 col-sm-4">
                   <label for="emp_skill">Employee Skills:</label>
-                  <input class="form-control" type="text" name="emp_skill" placeholder="Employee Skills" value="">
+                  <input class="form-control" type="text" id="emp_skill" name="emp_skill" placeholder="Employee Skills" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
                   <label for="emp_amount">Amount:</label>
-                  <input class="form-control" type="text" name="emp_amount" placeholder="Amount" value="">
+                  <input class="form-control" type="text" id="emp_amount" name="amount" placeholder="Amount" readonly>
                 </div>
                 <div class="m-b-10 col-sm-2">
                   <label for="add_trans">&nbsp;</label><br>
-                  <button style="border-radius: 0px;" type="button" class="btn btn-dark" data-dismiss="modal">ADD</button>
+                  <input type="submit" name="add_emp" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addemployee')}}">
                 </div>
               </div>
               </div>
@@ -284,6 +284,19 @@
       $("#unit_price").val(unit_price);
     });
 
-    
+    $("#emp_name").change(function(){
+      var emp_id = $(this).val();
+      $.ajax({
+        type:'get',
+        url:'{!!url('empdetails')!!}',
+        data:{'emp_id':emp_id},
+        success:function(response){
+          $.each(response.emp, function(key, item){
+            $('#emp_skill').val(item.Skills);
+            $('#emp_amount').val(item.Amount);
+          });
+        }
+      });
+    });
   });
 </script>

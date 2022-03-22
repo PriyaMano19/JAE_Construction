@@ -122,17 +122,20 @@
     selDate = year + "-" + month + "-" + day;
     selProj = 0;
     fetchdata(selDate, selProj);
+    fetchdataemp(selDate, selProj);
 
     $(document).on('change','#date',function(){
       var selDate = $(this).val();
       var selProj = $("#proj_id").val();
       fetchdata(selDate, selProj);
+      fetchdataemp(selDate, selProj);
     });
 
     $("#proj_id").change(function(){
       var selProj = $(this).val();
       var selDate = $("#date").val();
       fetchdata(selDate, selProj);
+      fetchdataemp(selDate, selProj);
     });
 
     function fetchdata(selDate, selProj)
@@ -152,8 +155,37 @@
                     <td class="text-center text-secondary text-xs">'+ item.qty+'</td>\
                     <td class="text-center text-secondary text-xs">'+ item.unit_price+'</td>\
                     <td class="text-center text-secondary text-xs">'+ ( item.unit_price * item.qty )+'</td>\
-                    <td class="text-center text-secondary text-xs">'+ ( item.transfer_proj_id )+'</td>\
-                    <td class="text-center text-secondary text-xs">'+ ( item.received_proj_id )+'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.transfer_proj_id +'</td>\
+                    <td class="text-center text-secondary text-xs">'+ item.received_proj_id +'</td>\
+                  </tr>');
+          });
+        }
+      });
+    }
+
+    function fetchdataemp(selDate, selProj)
+    {
+      $.ajax({
+        type:'get',
+        url:'{!!url('dsrcatemp')!!}',
+        data:{'selDate':selDate, 'selProj':selProj},
+        success:function(response){
+          //console.log(response);
+          $('tbody').append('<tr  style="border-collapse:collapse;">\
+            <td colspan="8" class="text-center text-secondary text-xs"></td>\
+          </tr>\
+          <tr style="border-collapse:collapse;">\
+            <td colspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project Name</td>\
+            <td colspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Employee Name</td>\
+            <td colspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Employee Skills</td>\
+            <td colspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Employee Amount</td>\
+          </tr>');
+          $.each(response.ds_report, function(key, item){
+            $('tbody').append('<tr>\
+                    <td colspan="2" class="text-center text-secondary text-xs">'+ item.proj_name+'</td>\
+                    <td colspan="2" class="text-center text-secondary text-xs">'+ item.emp_name+'</td>\
+                    <td colspan="2" class="text-center text-secondary text-xs">'+ item.Skills+'</td>\
+                    <td colspan="2" class="text-center text-secondary text-xs">'+ item.Amount+'</td>\
                   </tr>');
           });
         }
