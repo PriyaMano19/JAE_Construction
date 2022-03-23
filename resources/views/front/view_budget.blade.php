@@ -60,7 +60,7 @@
           <div class="modal-content">
             <div class="modal-header" style="color:white;background-color: #B2022F;">
             <div style="flex-direction:column;">
-              <h4 class="text-center modal-title" style="color:white">Edit Budget</h4>
+              <h4 class="text-center modal-title" style="color:white">View Budget Details</h4>
              
             </div>
             </div>
@@ -76,31 +76,31 @@
                </ul>
              </div>
              @endif
-              <form action="{{route('budget.update',$budget->budg_id)}}" method="post" >
+              <form action="{{route('budget.show',$dets->budg_id)}}" >
             @csrf
-            @method('PUT')
+          
                 
             <div class="m-b-10">
             <div class="m-b-10">
-                  <input class="form-control" type="text" name="proj_id" placeholder=""  value="{{$budget->proj_id}}" disabled>
+                  <input class="form-control" type="text" name="proj_id" placeholder=""  value="{{$dets->proj_id}}" disabled>
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="cate_id" placeholder=""  value="{{$budget->cate_id}}" disabled>
+                  <input class="form-control" type="text" name="cate_id" placeholder=""  value="{{$dets->cate_id}}" disabled>
                 </div>
             
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="budg_version" placeholder="budget version"  value="{{$budget->budg_version}}">
+                  <input class="form-control" type="text" name="budg_version" placeholder="budget version"  value="{{$dets->budg_version}}" disabled>
                 </div>
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="Amount" placeholder="Amount"  value="{{$budget->Amount}}">
+                  <input class="form-control" type="text" name="Amount" placeholder="Amount"  value="{{$dets->Amount}}" disabled>
                 </div>
 
                   
               
             </div>
             <div class="modal-footer">
-              <button style="border-radius: 0px;" type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
-              <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="Update">
+              <a href="budget" style="border-radius: 0px;"  class="btn btn-danger" >Back</a>
+              <!-- <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="Update"> -->
             </div>
             </form>
           </div>

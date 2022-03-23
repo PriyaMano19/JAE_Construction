@@ -8,5 +8,5 @@ class Item extends Model
 {
     public $timestamps = false;
     protected $table = 'items';
-    protected $fillable = ['item_name', 'item_description', 'cat_code'];
+    protected $fillable = ['item_name', 'item_description', 'cat_id'];
 }

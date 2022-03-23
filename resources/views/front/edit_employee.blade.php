@@ -103,7 +103,7 @@
               
             </div>
             <div class="modal-footer">
-              <button style="border-radius: 0px;" type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+              <button style="border-radius: 0px;" type="button" class="btn btn-danger" >Back</button>
               <input type="submit" name="submit" style="border-radius: 0px;" class="btn btn-dark" value="Update">
             </div>
             </form>

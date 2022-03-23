@@ -46,6 +46,7 @@ Route::get('/budget', 'BudgetController@index')->name('budget');
 Route::POST('/budgstore', 'BudgetController@store')->name('budget.store');
 Route::PUT('/budgupdate/{id}', 'BudgetController@update')->name('budget.update');
 Route::get('/budgedit/{id}', 'BudgetController@edit')->name('budget.edit');
+Route::get('/budgeview/{id}', 'BudgetController@show')->name('budget.show');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
 Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');

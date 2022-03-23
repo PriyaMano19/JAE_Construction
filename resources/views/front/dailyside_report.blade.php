@@ -75,7 +75,9 @@
             @csrf
             @method('PUT')
             <div class="form-group">
+           
               <div class="row">
+            
                 <div class="m-b-10 col-sm-4">
                   <label for="name">Project name:</label>
                   <select class="form-control" id="proj_id" name="proj_id" required focus> 
@@ -121,12 +123,21 @@
                   <label for="total_amount">Total Amount:</label>
                   <input class="form-control" id="total_amount" type="text" name="total_amount" placeholder="Total Amount" readonly>
                 </div>
+
+</div>
                 <div class="m-b-10 col-sm-2">
                 <label for="add_received">&nbsp;</label><br>
                 <input type="submit" name="add_received" style="border-radius: 0px;" class="btn btn-dark" value="ADD" formaction="{{url('addreceived')}}">
                 </div>
-              </div>
+            
+            
+
             <hr>
+
+         
+
+
+
               <div class="row">
                 <div class="m-b-10 col-sm-4">
                   <label for="transitem">Item Transferred:</label>

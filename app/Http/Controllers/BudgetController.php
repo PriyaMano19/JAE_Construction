@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Budget;
+use App\Cbudget;
 use App\Category;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
 {
@@ -49,7 +51,19 @@ class BudgetController extends Controller
             'Amount'=>'required',
         ]);
 
-        Budget::create($request->all());
+        // Budget::create($request->all());
+        Budget::create([
+            'proj_id' => $request['proj_id'],
+            'budg_version'=> $request['budg_version'],
+           
+            
+        ]);
+        Cbudget::create([
+        
+          'cate_id'=> $request['cate_id'],
+          'Amount'=> $request['Amount'],
+          
+      ]);
 
         return redirect()->route('budget')
         ->with('success','Budget created successfully');
@@ -61,10 +75,15 @@ class BudgetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        $dets=DB::table('proj_budgets')
+        ->join('cate_budget','proj_budgets.budg_id','=','cate_budget.budg_id')
+        ->select('proj_budgets.budg_id','proj_budgets.proj_id','proj_budgets.budg_version','cate_budget.cate_id','cate_budget.Amount')
+        ->get();
+        return view('front.view_budget',compact('dets'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -74,7 +93,7 @@ class BudgetController extends Controller
      */
     public function edit(int $id)
     {
-        $budget=Budget::where('budg_id',$id)->first();
+       
         return view('front.edit_budget',compact('budget'));
     }
 
@@ -85,25 +104,30 @@ class BudgetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,int $id)
+    public function update(Request $request,int $id,int $id1)
     {
         $request->validate([
-            'proj_id'=>'required',
-            'cate_id'=>'required',
+            // 'proj_id'=>'required',
+            // 'cate_id'=>'required',
             'budg_version'=>'required',
           
             'Amount'=>'required',
         ]);
 
         $budget = Budget::where('budg_id',$id)->get();
-      
-        Budget::where('budg_id', $id)->update([
+        $cbudget = Cbudget::where('c_id',$id1)->get();
+        Budget::where('budg_id', $id)->create([
               'proj_id' => $request['proj_id'],
-              'cate_id'=> $request['cate_id'],
               'budg_version'=> $request['budg_version'],
-              'Amount'=> $request['Amount'],
+             
               
           ]);
+          Cbudget::where('c_id', $id1)->create([
+            'budg_id'=> $request['budg_id'],
+            'cate_id'=> $request['cate_id'],
+            'Amount'=> $request['Amount'],
+            
+        ]);
         return redirect()->route('budget')
         ->with('success','Updated successfully');
     }

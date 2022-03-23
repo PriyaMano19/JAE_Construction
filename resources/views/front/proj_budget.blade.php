@@ -64,7 +64,7 @@
           <div class="modal-content">
             <div class="modal-header" style="color:white;background-color: #B2022F;">
             <div style="flex-direction:column;">
-              <h4 class="text-center modal-title" style="color:white">ADD Project</h4>
+              <h4 class="text-center modal-title" style="color:white">ADD Project budget</h4>
              
             </div>
             </div>
@@ -156,9 +156,9 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget ID</th>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Project ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Category ID </th>
+                   
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget version</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
+                      
                    
                       <th class="text-secondary opacity-15">Actions</th>
                     </tr>
@@ -168,25 +168,20 @@
                   @foreach($budget as $budg)
                     <tr>
                       <td class="align-middle text-center text-sm">
+                      {{$budg->budg_id}}
+                      </td>
+                      <td class="align-middle text-center text-sm">
                       {{$budg->proj_id}}
                       </td>
-                      <td class="align-middle text-center text-sm">
-                      {{$budg->proj_name}}
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                      {{$budg->start_date}}
-                      </td>
+                     
                       <td class="align-middle text-center">
-                      {{$budg->total_cost}}
+                      {{$budg->budg_version}}
                       </td>
-                      <td class="align-middle">
-                      
-                      {{$budg->proj_owner }}
-                      </td>
+                     
                      
                       <td class="align-middle">
                         <a href="{{ route('budget.edit',$budg->budg_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
-                          <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a>
+                          <a href="{{ route('budget.show',$budg->budg_id) }}" class="btn btn-warning "><i class="fa fa-eye "></i></a>
                           
                       </td>
                     </tr>

@@ -160,7 +160,7 @@
                     
                   </thead>
                   <tbody>
-                  @foreach($Item as $items)
+                  @foreach($item as $items)
                     <tr>
                       <td class="align-middle text-center text-sm">
                       {{$items->id}}

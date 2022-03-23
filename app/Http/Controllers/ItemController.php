@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\item;
+use App\Item;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -16,8 +16,8 @@ class ItemController extends Controller
     public function index()
     {
         $category = Category::all();
-        $Item = item::all();
-        return view('front.items')->with('Item',$Item)->with('category',$category);
+        $item = Item::all();
+        return view('front.items')->with('item',$item)->with('category',$category);
     }
 
     /**
@@ -52,7 +52,7 @@ class ItemController extends Controller
         $request->validate([
             'item_name'=>'required',
             'item_description'=>'required',
-            'cat_code'=>'required',
+            'cat_id'=>'required',
             
         ]);
 
