@@ -8,5 +8,5 @@ class Cbudget extends Model
 {
     public $timestamps = false;
     protected $table = 'cate_budget';
-    protected $fillable = ['budg_id', 'cate_id','Amount'];
+    protected $fillable = ['cate_id','Amount'];
 }

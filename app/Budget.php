@@ -8,5 +8,5 @@ class Budget extends Model
 {
     public $timestamps = false;
     protected $table = 'proj_budgets';
-    protected $fillable = ['proj_id', 'cate_id', 'budg_version', 'Amount'];
+    protected $fillable = ['proj_id', 'budg_version'];
 }

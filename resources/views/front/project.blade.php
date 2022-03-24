@@ -102,7 +102,7 @@
 
                 
                 <div class="m-b-10">
-                  <input class="form-control" type="text" name="description" placeholder="Description">
+                  <textarea class="form-control" type="text" name="description" placeholder="Description">Description</textarea>
                   
                 </div>
                 
@@ -191,7 +191,7 @@
                       </td>
                       <td class="align-middle">
                         <a href="{{ route('project.edit',$proj->proj_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
-                        <a href="#" class="btn btn-warning "><i class="fa fa-eye "></i></a>
+                        <!-- <a href="#" class="btn btn-warning "><i class="fa fa-eye "></i></a> -->
                           
                       </td>
                     </tr>

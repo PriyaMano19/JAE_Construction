@@ -42,22 +42,22 @@
           <li class="active">
             <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
           </li>
-          <li>
+          <li class="active">
               <a href="employee"><span class="fa fa-user mr-3"></span> Employee</a>
           </li>
-          <li>
+          <li class="active">
             <a href="category"><span class="fa fa-sticky-note mr-3"></span> Category</a>
           </li>
-          <li>
+          <li class="active">
             <a href="item"><span class="fa fa-file-text mr-3"></span> Items</a>
           </li>
-          <li>
+          <li class="active">
             <a href="project"><span class="fa fa-paper-plane mr-3"></span> Project</a>
           </li>
-          <li>
+          <li class="active">
             <a href="budget"><span class="fa fa-money mr-3"></span> Project Budget</a>
           </li>
-          <li>
+          <li class="active">
             <a href="dsreport"><span class="fa fa-book mr-3"></span> Daily Site Report</a>
           </li>
         </ul>

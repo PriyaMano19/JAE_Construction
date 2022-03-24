@@ -191,7 +191,7 @@
              </td>
                       <td class="align-middle">
                         <a href="{{ route('employee.edit',$emp->emp_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
-                          <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a>
+                          <!-- <a href="" class="btn btn-warning "><i class="fa fa-eye "></i></a> -->
                           
                       </td>
                     </tr>
