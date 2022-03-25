@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','UserController@index')->name('front.login');;
 Route::POST('/check','UserController@check')->name('login.check');
 Route::POST('/login','UserController@logout')->name('user.logout');
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employee', 'EmployeeController@index')->name('employee');
@@ -43,6 +43,14 @@ Route::get('/projedit/{id}', 'ProjectController@edit')->name('project.edit');
 //Route::get('/projshow', 'ProjectController@show')->name('project.show');
 
 Route::get('/budget', 'BudgetController@index')->name('budget');
+// By Senthoo
+Route::get('/add_budget', 'BudgetController@addbudget');
+Route::get('/show_cat_budget', 'BudgetController@show_cat_budget');
+Route::get('/insert_budget', 'BudgetController@insert_budget');
+Route::get('/complete_budget/{id}', 'BudgetController@complete_budget');
+
+
+
 Route::POST('/budgstore', 'BudgetController@store')->name('budget.store');
 Route::PUT('/budgupdate/{id}', 'BudgetController@update')->name('budget.update');
 Route::get('/budgedit/{id}', 'BudgetController@edit')->name('budget.edit');
@@ -60,3 +68,6 @@ Route::get('/projcat', 'DSReportController@projcat');
 Route::get('/catitem', 'DSReportController@catitem');
 Route::get('/trans_catitem', 'DSReportController@trans_catitem');
 Route::get('/empdetails', 'DSReportController@empdetails');
+
+//By Senthoo
+Route::post('/addDailyprojets', 'DSReportController@insertDailyReports');

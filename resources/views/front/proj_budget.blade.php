@@ -53,8 +53,7 @@
 
       </style>
 
-
-<button class="btn-plus" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus fa-2xl"></i></button>
+      <a href="<?php echo url("/add_budget");  ?>" class="btn-plus"><i class="fa fa-plus fa-2xl"></i></a>
 
       <!-- Modal -->
       <div style="margin-top: 60px;" id="myModal" class="modal fade" role="dialog">
@@ -133,6 +132,13 @@
 
      
 
+<div style="padding: 20px;" id="completed_msg">
+@if (session('complete'))
+    <div class="alert alert-success">
+        {{ session('complete') }}
+    </div>
+@endif
+</div>
 
 <div class="container-fluid py-4">
       <div class="row">
@@ -193,4 +199,13 @@
           </div>
         </div>
       </div>
+      <!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script>
+        $(function() {
+            setTimeout(function() {
+                $("#completed_msg").hide('blind', {}, 500)
+            }, 5000);
+        });
+      </script>
 @endsection

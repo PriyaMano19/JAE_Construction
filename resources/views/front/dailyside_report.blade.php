@@ -77,7 +77,6 @@
             <div class="form-group">
            
               <div class="row">
-            
                 <div class="m-b-10 col-sm-4">
                   <label for="name">Project name:</label>
                   <select class="form-control" id="proj_id" name="proj_id" required focus> 
@@ -222,11 +221,8 @@
         url:'{!!url('projcat')!!}',
         data:{'proj_id':proj_id},
         success:function(response){
-          $('#cate_id').find('option').remove().end();
-          $('#cate_id').append('<option>Select Category</option>');
-          $.each(response.category, function(key, item){
-            $('#cate_id').append('<option value='+item.cate_id+'>'+item.cat_name+'</option>');
-          });
+          //alert(response);
+          $('#cate_id').html(response);
         }
       });
     });
@@ -234,7 +230,7 @@
     $("#cate_id").change(function(){
       var cate_id = $(this).val();
       fetchcat(cate_id);
-      fetchcat_trans(cate_id);
+      //fetchcat_trans(cate_id);
     });
 
     function fetchcat(cate_id)
@@ -244,10 +240,12 @@
         url:'{!!url('catitem')!!}',
         data:{'cate_id':cate_id},
         success:function(response){
-          $('#item_id').find('option').remove().end();
-          $.each(response.items, function(key, item){
-            $('#item_id').append('<option value='+item.id+'>'+item.item_name+'</option>');
-          });
+          //alert(response);
+          $('#item_id').html(response);
+          // $('#item_id').find('option').remove().end();
+          // $.each(response.items, function(key, item){
+          //   $('#item_id').append('<option value='+item.id+'>'+item.item_name+'</option>');
+          // });
         }
       });
     }

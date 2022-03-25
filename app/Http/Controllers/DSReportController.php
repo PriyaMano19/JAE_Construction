@@ -12,6 +12,7 @@ use App\Site_employee;
 use App\Daily_site_report;
 use App\Employee;
 use App\Budget;
+use Illuminate\Support\Facades\DB;
 
 class DSReportController extends Controller
 {
@@ -24,7 +25,12 @@ class DSReportController extends Controller
     {
         $project = Project::all();
         $date = date('Y-m-d');
-        return view('front.dailyside_report_view')->with('date',$date)->with('project',$project);
+
+        $projects = DB::table('daily_site_report')
+                ->where('date', $date)
+                ->get();
+
+        return view('front.dailyside_report_view')->with('date',$date)->with('project',$project)->with('projects',$projects);
     }
 
     public function dsrcat(Request $request)
@@ -156,7 +162,10 @@ class DSReportController extends Controller
      */
     public function add()
     {
-        $project = Project::all();
+        $project = DB::table('projects')
+            ->join('proj_budgets', 'projects.proj_id', '=', 'proj_budgets.proj_id')
+            ->select('projects.*')
+            ->get();
         $employee = Employee::all();
         $sel_project = 0;
         $sel_category = 0;
@@ -315,16 +324,34 @@ class DSReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function get_budget_id($project_id)
+    {
+        $budget_id = DB::table('proj_budgets')
+        ->where('proj_id',$project_id)
+        ->where('complete',1)
+        ->first();
+        return $budget_id->budg_id;
+    }
     public function projcat(Request $request)
     {
         $proj_id = $request->proj_id;
-        $category = Budget::join('categories', 'proj_budgets.cate_id', '=', 'categories.id')
-        ->select('proj_budgets.cate_id','categories.cat_name')
-        ->where('proj_budgets.proj_id', $proj_id)
+        $budget_id = $this->get_budget_id($proj_id);
+        $category = DB::table('categories')
+        ->join('category_budget', 'categories.id', '=', 'category_budget.catogery_id')
+        ->select('categories.*')
+        ->where('category_budget.budget_id',$budget_id)
         ->get();
-        return response()->json([
-            'category'=>$category,
-        ]);
+        ?>
+                <option value="">Select Catogery</option>
+        <?php
+        foreach ($category as $cat) {
+            ?>
+                <option value="<?php echo $cat->id; ?>"><?php echo $cat->cat_name; ?></option>
+            <?php
+        }
+        // return response()->json([
+        //     'category'=>$category,
+        // ]);
     }
 
     /**
@@ -337,9 +364,15 @@ class DSReportController extends Controller
     {
         $cate_id = $request->cate_id;
         $items = Item::where('cat_id', $cate_id)->get();
-        return response()->json([
-            'items'=>$items,
-        ]);
+        ?>
+        <option value="">Select Item</option>
+        <?php
+        foreach ($items as $itms) {
+            ?>
+            <option value="<?php echo $itms->id; ?>"><?php echo $itms->item_name; ?></option>
+            <?php
+        }
+        
     }
 
     /**
@@ -374,5 +407,52 @@ class DSReportController extends Controller
         return response()->json([
             'emp'=>$employee,
         ]);
+    }
+
+    public function insertDailyReports(Request $request)
+    {
+        $date = $request->date;
+
+        $is_available = DB::table('daily_site_report')
+                ->where('date',$date)
+                ->get();
+        if ($is_available->count()) {
+            return redirect('/dsreport');
+        }
+        else{
+            $projects = DB::table('proj_budgets')
+                ->where('complete',1)
+                ->get();
+            foreach ($projects as $project) {
+                $project_id = $project->proj_id; 
+                $budget_id = $project->budg_id;
+
+                $catogery = DB::table('category_budget')
+                    ->where('budget_id',$budget_id)
+                    ->get();
+                foreach ($catogery as $cat) {
+                    $catogery_id = $cat->catogery_id;
+                    // Insert into category_budget
+                    DB::insert('insert into daily_site_report (proj_id, cate_id, date) values (?,?,?)', [$project_id,$catogery_id,$date]);
+                    return redirect('/dsreport');
+                }
+            }
+        }
+    }
+
+    static function project_name($project_id)
+    {
+        $project = DB::table('projects')
+                ->where('proj_id',$project_id)
+                ->first();
+        return $project->proj_name;
+    }
+
+    static function catogery_name($catogery_id)
+    {
+        $catogery = DB::table('categories')
+                ->where('id',$catogery_id)
+                ->first();
+        return $catogery->cat_name;
     }
 }
