@@ -13,6 +13,7 @@ use App\Daily_site_report;
 use App\Employee;
 use App\Budget;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\BudgetController;
 
 class DSReportController extends Controller
 {
@@ -417,7 +418,8 @@ class DSReportController extends Controller
                 ->where('date',$date)
                 ->get();
         if ($is_available->count()) {
-            return redirect('/dsreport');
+            //return redirect('/dsreport');
+            echo 0;
         }
         else{
             $projects = DB::table('proj_budgets')
@@ -432,11 +434,12 @@ class DSReportController extends Controller
                     ->get();
                 foreach ($catogery as $cat) {
                     $catogery_id = $cat->catogery_id;
+                    // echo "<br>";
                     // Insert into category_budget
                     DB::insert('insert into daily_site_report (proj_id, cate_id, date) values (?,?,?)', [$project_id,$catogery_id,$date]);
-                    return redirect('/dsreport');
                 }
             }
+            return redirect('/dsreport');
         }
     }
 
@@ -454,5 +457,152 @@ class DSReportController extends Controller
                 ->where('id',$catogery_id)
                 ->first();
         return $catogery->cat_name;
+    }
+
+    public function budget_id($project_id)
+    {
+        $budget_id = DB::table('proj_budgets')
+        ->where('proj_id',$project_id)
+        ->where('complete',0)
+        ->first();
+        return $budget_id->budg_id;
+    }
+
+    static function catogery_amount($project_id,$catogery_id)
+    {
+        $budget = DB::table('proj_budgets')
+        ->where('proj_id',$project_id)
+        ->where('complete',1)
+        ->first();
+
+        $budget_id = $budget->budg_id;
+
+        $catogery = DB::table('category_budget')
+                ->where('catogery_id',$catogery_id)
+                ->where('budget_id',$budget_id)
+                ->first();
+        return $catogery->amount;
+    }
+
+    // Update Daily Site Report 
+    public function updateDailyReports($id)
+    {
+        $reportData = $this->reportData($id);
+
+        $project_id = $reportData->proj_id;
+        $catogery_id = $reportData->cate_id;
+
+        $project = DB::table('projects')
+            ->join('proj_budgets', 'projects.proj_id', '=', 'proj_budgets.proj_id')
+            ->select('projects.*')
+            ->get();
+
+        $category = DB::table('categories')
+            ->join('daily_site_report', 'categories.id', '=', 'daily_site_report.cate_id')
+            ->select('categories.*')
+            ->where('daily_site_report.proj_id',$project_id)
+            ->get();
+        
+        $items = DB::table('items')
+            ->where('cat_id',$catogery_id)
+            ->get();
+
+        $employee = Employee::all();
+        $sel_project = 0;
+        $sel_category = 0;
+
+        
+
+        return view('dailyReport.dailyside_report')
+        ->with('employee',$employee)
+        ->with('project',$project)
+        ->with('category',$category)
+        ->with('items',$items)
+        ->with('sel_project',$sel_project)
+        ->with('sel_category',$sel_category)
+        ->with('project_id',$project_id)
+        ->with('catogery_id',$catogery_id)
+        ->with('report_id',$id);
+    }
+
+    //Get Report data by report id
+    public function reportData($report_id)
+    {
+        $report = DB::table('daily_site_report')
+                ->where('id',$report_id)
+                ->first();
+        return $report;
+    }
+
+    // Insert Received items
+    public function insert_received(Request $request)
+    {
+        $item_id = $request->item_id;
+        $received_qty = $request->received_qty;
+        $received_price = $request->received_price;
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+
+        // Insert Rec Items
+        $save = DB::insert('insert into site_item (dsreport_id,item_id,qty,unit_price) 
+        values (?,?,?,?)', 
+        [$report_id,$item_id,$received_qty,$received_price]);
+
+        if ($save) {
+            $this->show_items($report_id);
+        }
+
+    }
+
+    // Get Report ID
+    public function getReport_id($project_id,$catogery_id,$selectedDate)
+    {
+        $report = DB::table('daily_site_report')
+                ->where('proj_id',$project_id)
+                ->where('cate_id',$catogery_id)
+                ->where('date',$selectedDate)
+                ->first();
+        return $report->id;
+    }
+
+    public function show_items($report_id)
+    {
+        // Get Items
+        $received_items = DB::table('site_item')
+        ->where('dsreport_id',$report_id)
+        ->get();
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-center">Item</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-right">Unit Price</th>
+                <th class="text-right">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                foreach ($received_items as $rec) {
+                    ?>
+                    <tr>
+                        <td class="text-center"><?php echo $i; ?></td>
+                        <td class="text-center"><?php echo $rec->item_id; ?></td>
+                        <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
+                        <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
+                        <td class="text-right"><?php echo $qty*$uprice; ?>.00</td>
+                    </tr>
+                    <?php
+                $i++;
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
     }
 }

@@ -69,5 +69,7 @@ Route::get('/catitem', 'DSReportController@catitem');
 Route::get('/trans_catitem', 'DSReportController@trans_catitem');
 Route::get('/empdetails', 'DSReportController@empdetails');
 
-//By Senthoo
+//By Senthoo in Daily Report
 Route::post('/addDailyprojets', 'DSReportController@insertDailyReports');
+Route::get('/DailySiteUpdate/{id}', 'DSReportController@updateDailyReports');
+Route::get('/insert_received', 'DSReportController@insert_received');

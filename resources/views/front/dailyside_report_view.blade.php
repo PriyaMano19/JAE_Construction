@@ -146,9 +146,13 @@
                             echo DSReportController::catogery_name($pro->cate_id);
                           ?>
                         </td>
-                        <td class="text-center"></td>
                         <td class="text-center">
-                          <a href="" class="btn btn-warning"><i class="fa fa-eye"></i></a>
+                        <?php
+                            echo DSReportController::catogery_amount($pro->proj_id,$pro->cate_id);
+                          ?>.00
+                        </td>
+                        <td class="text-center">
+                          <a href="/DailySiteUpdate/{{$pro->id}}" class="btn btn-warning"><i class="fa fa-eye"></i></a>
                           <a href="" class="btn btn-success"><i class="fa fa-print"></i></a>
                         </td>
                       </tr>
