@@ -67,6 +67,7 @@ Route::get('/dsrcatemp', 'DSReportController@dsrcatemp');
 Route::get('/projcat', 'DSReportController@projcat');
 Route::get('/catitem', 'DSReportController@catitem');
 Route::get('/trans_catitem', 'DSReportController@trans_catitem');
+Route::get('/projects_for_trans', 'DSReportController@projects_for_trans');
 Route::get('/empdetails', 'DSReportController@empdetails');
 
 //By Senthoo in Daily Report

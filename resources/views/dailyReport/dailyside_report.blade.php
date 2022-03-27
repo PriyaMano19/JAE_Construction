@@ -179,9 +179,6 @@
                         <label for="name">Transferred Project name:</label>
                         <select class="form-control" id="transfer_proj_id" name="transfer_proj_id">
                             <option value="">Select Project</option>
-                            @foreach($project as $proj)
-                            <option value="{{$proj->proj_id}}">{{ $proj->proj_name }}</option>
-                            @endforeach
                         </select>
                     </div>
                     <div class="m-b-10 col-sm-6"></div>
@@ -251,8 +248,10 @@ $(document).ready(function() {
 
     $("#cate_id").change(function() {
         var cate_id = $(this).val();
+        var proj_id = $("#proj_id").val();
         fetchcat(cate_id);
         fetchcat_trans(cate_id);
+        projects_for_trans(cate_id,proj_id);
     });
 
     function fetchcat(cate_id) {
@@ -289,6 +288,26 @@ $(document).ready(function() {
             }
         });
     }
+
+    function projects_for_trans(cate_id, project_id) {
+        $.ajax({
+            type: 'get',
+            url: '{!!url('projects_for_trans')!!}',
+            data: {
+                'cate_id': cate_id,
+                'project_id': project_id
+            },
+            success: function(response) {
+                $('#transfer_proj_id').html(response);
+            }
+        });
+    }
+
+    $("#transitem").change(function() {
+        $("#transtotal").val();
+        $("#transquantity").val();
+        $("#transunitprice").val();
+    });
 
     $("#transunitprice").change(function() {
         var unit_price = $(this).val();

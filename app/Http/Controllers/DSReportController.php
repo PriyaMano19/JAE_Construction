@@ -373,6 +373,26 @@ class DSReportController extends Controller
         ]);
     }
 
+    public function projects_for_trans(Request $request)
+    {
+        $proj_id = $request->project_id;
+        $cate_id = $request->cate_id;
+
+        //$budget_id = $this->get_budget_id($proj_id);
+        $project = DB::table('daily_site_report')
+        ->join('projects', 'projects.proj_id', '=', 'daily_site_report.proj_id')
+        ->select('projects.*')
+        ->where('daily_site_report.cate_id',$cate_id)
+        ->where('daily_site_report.proj_id','!=',$proj_id)
+        ->get();
+        
+        foreach ($project as $pro) {
+            ?>
+                <option value="<?php echo $pro->proj_id; ?>"><?php echo $pro->proj_name; ?></option>
+            <?php
+        }
+    }
+
     public function insertDailyReports(Request $request)
     {
         $date = $request->date;
@@ -665,14 +685,16 @@ class DSReportController extends Controller
     {
         // Get Items
         $received_items = DB::table('site_employee')
-        ->where('dsreport_id',$report_id)
+        ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
+        ->where('site_employee.dsreport_id',$report_id)
         ->get();
         ?>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th class="text-center">Employee</th>
+                <th class="text-center">Employee Name</th>
+                <th class="text-center">Skills</th>
                 <th class="text-center">Amount</th>
             </tr>
             </thead>
@@ -683,7 +705,8 @@ class DSReportController extends Controller
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td class="text-center"><?php echo $rec->emp_id; ?></td>
+                        <td class="text-center"><?php echo $rec->emp_name; ?></td>
+                        <td class="text-center"><?php echo $rec->Skills; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->amount; ?></td>
                     </tr>
                     <?php
