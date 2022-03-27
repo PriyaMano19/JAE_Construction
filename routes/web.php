@@ -57,7 +57,7 @@ Route::get('/budgedit/{id}', 'BudgetController@edit')->name('budget.edit');
 Route::get('/budgeview/{id}', 'BudgetController@show')->name('budget.show');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
-Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');
+//Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');
 Route::PUT('/addreceived', 'DSReportController@update')->name('dsreport.update');
 Route::PUT('/addtrans', 'DSReportController@trans')->name('dsreport.trans');
 Route::PUT('/addemployee', 'DSReportController@addemployee')->name('dsreport.addemployee');
@@ -70,6 +70,8 @@ Route::get('/trans_catitem', 'DSReportController@trans_catitem');
 Route::get('/empdetails', 'DSReportController@empdetails');
 
 //By Senthoo in Daily Report
-Route::post('/addDailyprojets', 'DSReportController@insertDailyReports');
-Route::get('/DailySiteUpdate/{id}', 'DSReportController@updateDailyReports');
-Route::get('/insert_received', 'DSReportController@insert_received');
+Route::post('/addDailyprojets', 'DSReportController@insertDailyReports')->name('dsreport.add');
+Route::get('/DailySiteUpdate/{id}', 'DSReportController@updateDailyReports')->name('dsreport.DailySiteUpdate');
+Route::get('insert_received', 'DSReportController@insert_received');
+Route::get('insert_transferred', 'DSReportController@insert_transferred');
+Route::get('insert_emp_amount', 'DSReportController@insert_emp_amount');

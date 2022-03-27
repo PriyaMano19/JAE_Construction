@@ -127,14 +127,12 @@
                     <div class="m-b-10 col-sm-2"></div>
                     <div class="m-b-10 col-sm-4">
                         <label for="item_id">Received Quantity:</label>
-                        <input class="form-control" id="qty" type="hidden" name="qty">
                         <input class="form-control" id="recqty" type="text" placeholder="Quantity" value="">
                     </div>
                 </div>
                 <div class="row">
                     <div class="m-b-10 col-sm-4">
                         <label for="unit_price">Unit Price:</label>
-                        <input class="form-control" id="unit_price" type="hidden" name="unit_price">
                         <input class="form-control" id="recunit_price" type="text" placeholder="Unit Price" value="">
                     </div>
                     <div class="m-b-10 col-sm-2"></div>
@@ -150,12 +148,8 @@
                     <a class="btn btn-dark" id="add_received">Add</a>
                 </div>
 
-                <div class="m-b-10" id="received_items">
-
-                </div>
-
+                <div class="m-b-10" id="received_items"></div>
                 <hr>
-
                 <div class="row">
                     <div class="m-b-10 col-sm-4">
                         <label for="transitem">Item Transferred:</label>
@@ -193,12 +187,12 @@
                     <div class="m-b-10 col-sm-6"></div>
                     <div class="m-b-10 col-sm-2">
                         <label for="add_trans">&nbsp;</label><br>
-                        <input type="submit" name="add_trans" style="border-radius: 0px;" class="btn btn-dark"
-                            value="ADD" formaction="{{url('addtrans')}}">
+                        <a class="btn btn-dark" id="add_trans">Add</a>
                     </div>
                 </div>
             </div>
 
+            <div class="m-b-10" id="transferred_items"></div>
             <hr>
             <div class="form-group">
                 <div class="row">
@@ -222,12 +216,12 @@
                             readonly>
                     </div>
                     <div class="m-b-10 col-sm-2">
-                        <label for="add_trans">&nbsp;</label><br>
-                        <input type="submit" name="add_emp" style="border-radius: 0px;" class="btn btn-dark" value="ADD"
-                            formaction="{{url('addemployee')}}">
+                        <label for="add_transa">&nbsp;</label><br>
+                        <a class="btn btn-dark" id="add_emp">Add</a>
                     </div>
                 </div>
             </div>
+            <div class="m-b-10" id="employees"></div>
     </div>
 
     <div class="modal-footer">
@@ -258,7 +252,7 @@ $(document).ready(function() {
     $("#cate_id").change(function() {
         var cate_id = $(this).val();
         fetchcat(cate_id);
-        //fetchcat_trans(cate_id);
+        fetchcat_trans(cate_id);
     });
 
     function fetchcat(cate_id) {
@@ -299,29 +293,25 @@ $(document).ready(function() {
     $("#transunitprice").change(function() {
         var unit_price = $(this).val();
         var qty = $("#transquantity").val();
-        $("#transtotal").val(qty * unit_price * -1);
-        $("#unit_price").val(unit_price);
+        $("#transtotal").val(qty * unit_price);
     });
 
     $("#transquantity").change(function() {
         var qty = $(this).val();
         var unit_price = $("#transunitprice").val();
-        $("#transtotal").val(qty * unit_price * -1);
-        $("#qty").val(qty * -1);
+        $("#transtotal").val(qty * unit_price);
     });
 
     $("#recqty").change(function() {
         var qty = $(this).val();
         var unit_price = $("#recunit_price").val();
         $("#total_amount").val(qty * unit_price);
-        $("#qty").val(qty);
     });
 
     $("#recunit_price").change(function() {
         var unit_price = $(this).val();
         var qty = $("#recqty").val();
         $("#total_amount").val(qty * unit_price);
-        $("#unit_price").val(unit_price);
     });
 
     $("#emp_name").change(function() {
@@ -346,7 +336,7 @@ $(document).ready(function() {
     $("#add_received").click(function() {
         var item_id = $("#item_id").val();
         var received_qty = $("#recqty").val();
-        var received_price = $("#unit_price").val();
+        var received_price = $("#recunit_price").val();
         var report_id = $("#report_id").val();
         var selectedDate = $("#selectedDate").val();
         var project_id = $("#proj_id").val();
@@ -365,6 +355,59 @@ $(document).ready(function() {
             },
             success: function(response) {
                 $("#received_items").html(response);
+            }
+        });
+    });
+
+    $("#add_trans").click(function() {
+        var item_id = $("#transitem").val();
+        var qty = $("#transquantity").val();
+        var transferred_qty = qty*-1;
+        var transferred_price = $("#transunitprice").val();
+        var selectedDate = $("#selectedDate").val();
+        var project_id = $("#proj_id").val();
+        var transfer_proj_id = $("#transfer_proj_id").val();
+        var catogery_id = $("#cate_id").val();
+
+        //alert(transferred_qty);
+        $.ajax({
+            type: 'get',
+            url: '{!!url('insert_transferred')!!}',
+            data: {
+                'transfer_proj_id': transfer_proj_id,
+                'transitem': item_id,
+                'transferred_qty': transferred_qty,
+                'transferred_price': transferred_price,
+                'selectedDate': selectedDate,
+                'project_id': project_id,
+                'catogery_id': catogery_id
+            },
+            success: function(response) {
+                $("#transferred_items").html(response);
+            }
+        });
+    });
+
+    $("#add_emp").click(function() {
+        var emp_id = $("#emp_name").val();
+        var amount = $("#emp_amount").val();
+        var selectedDate = $("#selectedDate").val();
+        var project_id = $("#proj_id").val();
+        var catogery_id = $("#cate_id").val();
+
+        //alert(transferred_qty);
+        $.ajax({
+            type: 'get',
+            url: '{!!url('insert_emp_amount')!!}',
+            data: {
+                'emp_id': emp_id,
+                'amount': amount,
+                'selectedDate': selectedDate,
+                'project_id': project_id,
+                'catogery_id': catogery_id
+            },
+            success: function(response) {
+                $("#employees").html(response);
             }
         });
     });

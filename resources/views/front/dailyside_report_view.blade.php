@@ -71,7 +71,7 @@
               </div>
             </div>
       <div class="modal-body">
-        <form action="/addDailyprojets" method="post">
+        <form action="{{ route('dsreport.add') }}" method="post">
         @csrf
         <!-- Equivalent to... -->
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -152,7 +152,7 @@
                           ?>.00
                         </td>
                         <td class="text-center">
-                          <a href="/DailySiteUpdate/{{$pro->id}}" class="btn btn-warning"><i class="fa fa-eye"></i></a>
+                          <a href="DailySiteUpdate/{{$pro->id}}" class="btn btn-warning"><i class="fa fa-eye"></i></a>
                           <a href="" class="btn btn-success"><i class="fa fa-print"></i></a>
                         </td>
                       </tr>

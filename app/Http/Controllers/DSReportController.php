@@ -182,43 +182,6 @@ class DSReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function addemployee(Request $request)
-    {
-        $request['transfer_proj_id'] = 0;
-        $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        
-        if($ds_ids > 0)
-        {
-        }
-        else
-        {
-            Daily_site_report::create($request->all());
-        }
-        Site_employee::create($request->all());
-        $ds_id = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        $ds_emp = Site_employee::where('dsreport_id', 0)->where('emp_id', $request['emp_id'])->max('id');
-        
-        Site_employee::where('id', $ds_emp)
-                ->update(['dsreport_id' => $ds_id]);
-
-        $project = Project::all();
-        $employee = Employee::all();
-        $sel_project = $request['proj_id'];
-        $sel_category = $request['cate_id'];
-
-        return view('front.dailyside_report')
-        ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('employee',$employee)
-        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         $request['transfer_proj_id'] = 0;
@@ -557,6 +520,58 @@ class DSReportController extends Controller
 
     }
 
+    public function insert_transferred(Request $request)
+    {
+        $item_id = $request->transitem;
+        $transferred_qty = $request->transferred_qty;
+        $transferred_price = $request->transferred_price;
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+        $trans_project_id = $request->transfer_proj_id;
+
+        //Minus record
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+        $save = DB::insert('insert into site_item (dsreport_id,item_id,qty,unit_price,transfer_proj_id) 
+        values (?,?,?,?,?)', 
+        [$report_id,$item_id,$transferred_qty,$transferred_price,$trans_project_id]);
+
+        if($save)
+        {
+            //Plus record
+            $transreport_id = $this->getReport_id($trans_project_id,$catogery_id,$selectedDate);
+            $trans_qty  = $transferred_qty * -1;
+
+            $save_trans = DB::insert('insert into site_item (dsreport_id,item_id,qty,unit_price,received_proj_id) 
+            values (?,?,?,?,?)', 
+            [$transreport_id,$item_id,$trans_qty,$transferred_price,$project_id]);
+
+            if ($save_trans) {
+                $this->show_items_trans($report_id);
+            }
+        }
+    }
+
+    public function insert_emp_amount(Request $request)
+    {
+        $emp_id = $request->emp_id;
+        $amount = $request->amount;
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+
+        // Insert Employees' Salary
+        $save = DB::insert('insert into site_employee (dsreport_id,emp_id,amount) 
+        values (?,?,?)', 
+        [$report_id,$emp_id,$amount]);
+
+        if ($save) {
+            $this->show_employees($report_id);
+        }
+    }
+
     // Get Report ID
     public function getReport_id($project_id,$catogery_id,$selectedDate)
     {
@@ -573,6 +588,7 @@ class DSReportController extends Controller
         // Get Items
         $received_items = DB::table('site_item')
         ->where('dsreport_id',$report_id)
+        ->where('transfer_proj_id',0)
         ->get();
         ?>
         <table class="table table-striped">
@@ -596,6 +612,79 @@ class DSReportController extends Controller
                         <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
                         <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
                         <td class="text-right"><?php echo $qty*$uprice; ?>.00</td>
+                    </tr>
+                    <?php
+                $i++;
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+    }
+
+    public function show_items_trans($report_id)
+    {
+        // Get Items
+        $received_items = DB::table('site_item')
+        ->where('dsreport_id',$report_id)
+        ->where('transfer_proj_id', '>',0)
+        ->get();
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-center">Item</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-right">Unit Price</th>
+                <th class="text-right">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                foreach ($received_items as $rec) {
+                    ?>
+                    <tr>
+                        <td class="text-center"><?php echo $i; ?></td>
+                        <td class="text-center"><?php echo $rec->item_id; ?></td>
+                        <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
+                        <td class="text-right"><?php echo $uprice= $rec->unit_price*-1; ?>.00</td>
+                        <td class="text-right"><?php echo $qty*$uprice*-1; ?>.00</td>
+                    </tr>
+                    <?php
+                $i++;
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+    }
+
+    public function show_employees($report_id)
+    {
+        // Get Items
+        $received_items = DB::table('site_employee')
+        ->where('dsreport_id',$report_id)
+        ->get();
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-center">Employee</th>
+                <th class="text-center">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                foreach ($received_items as $rec) {
+                    ?>
+                    <tr>
+                        <td class="text-center"><?php echo $i; ?></td>
+                        <td class="text-center"><?php echo $rec->emp_id; ?></td>
+                        <td class="text-center"><?php echo $qty = $rec->amount; ?></td>
                     </tr>
                     <?php
                 $i++;
