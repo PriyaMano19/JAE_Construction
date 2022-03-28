@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="m-b-10 col-sm-4">
                         <label for="name">Project name:</label>
-                        <select class="form-control" id="proj_id" name="proj_id" required focus>
+                        <select class="form-control" id="proj_id" name="proj_id" style="pointer-events: none;">
                             <option value="">Select Project</option>
                             @foreach($project as $proj)
                             <option @if($proj->proj_id == $sel_project OR $proj->proj_id == $project_id)
@@ -97,13 +97,13 @@
                     <div class="m-b-10 col-sm-4">
                         <label for="date">Date:</label>
                         <input class="form-control" type="date" name="date" placeholder="Date" id="selectedDate"
-                            value="{{date('Y-m-d')}}">
+                            value="{{date('Y-m-d')}}" raedonly>
                     </div>
                 </div>
                 <div class="row">
                     <div class="m-b-10 col-sm-4">
                         <label for="cate_id">Project Category:</label>
-                        <select class="form-control" id="cate_id" name="cate_id" required focus>
+                        <select class="form-control" id="cate_id" name="cate_id" style="pointer-events: none;">
                             @foreach ($category as $cat)
                             <option @if ($cat->id == $catogery_id)
                                 selected="selected"
@@ -376,6 +376,8 @@ $(document).ready(function() {
                 $("#received_items").html(response);
             }
         });
+        
+        fetchcat_trans(catogery_id);
     });
 
     $("#add_trans").click(function() {
