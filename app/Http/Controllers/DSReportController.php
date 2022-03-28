@@ -22,88 +22,40 @@ class DSReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $project = Project::all();
         $date = date('Y-m-d');
+        return view('front.dailyside_report_view')->with('date',$date)->with('project',$project);
+    }
 
-        $projects = DB::table('daily_site_report')
-                ->where('date', $date)
+    public function loadData(Request $request)
+    {
+        $date = $request->selDate;
+        $project_id = $request->selProj;
+
+        if($project_id > 0)
+        {
+            $projects = DB::table('daily_site_report')
+                ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
+                ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id')
+                ->where('daily_site_report.date', $date)
+                ->where('daily_site_report.proj_id', $project_id)
                 ->get();
-
-        return view('front.dailyside_report_view')->with('date',$date)->with('project',$project)->with('projects',$projects);
-    }
-
-    public function dsrcat(Request $request)
-    {
-        $date = $request->selDate;
-        $proj = $request->selProj;
-        
-        if($proj > 0)
-        {
-            $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
-            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
-            ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-            ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id','site_item.received_proj_id')
-            ->where('daily_site_report.date',$date)
-            ->where('daily_site_report.proj_id',$proj)
-            ->orderBy('daily_site_report.proj_id', 'ASC')
-            ->orderBy('daily_site_report.cate_id', 'ASC')
-            ->orderBy('site_item.transfer_proj_id', 'ASC')
-            ->get();
         }
         else
         {
-            $ds_report = Daily_site_report::join('site_item', 'daily_site_report.id', '=', 'site_item.dsreport_id')
-            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
-            ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-            ->join('items', 'site_item.item_id', '=', 'items.id')
-            ->select('projects.proj_name','categories.cat_name','items.item_name','daily_site_report.date', 'site_item.qty', 'site_item.unit_price','site_item.transfer_proj_id','site_item.received_proj_id')
-            ->where('daily_site_report.date',$date)
-            ->orderBy('daily_site_report.proj_id', 'ASC')
-            ->orderBy('daily_site_report.cate_id', 'ASC')
-            ->orderBy('site_item.transfer_proj_id', 'ASC')
-            ->get();
+            $projects = DB::table('daily_site_report')
+                ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
+                ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id')
+                ->where('daily_site_report.date', $date)
+                ->get();
         }
 
         return response()->json([
-            'ds_report'=>$ds_report,
-        ]);
-        //return view('front.dailyside_report_view',compact(ds_report));
-    }
-
-    public function dsrcatemp(Request $request)
-    {
-        $date = $request->selDate;
-        $proj = $request->selProj;
-        
-        if($proj > 0)
-        {
-            $ds_report = Daily_site_report::join('site_employee', 'daily_site_report.id', '=', 'site_employee.dsreport_id')
-            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
-            ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
-            ->select('projects.proj_name','employees.emp_name','employees.Skills','employees.Amount','daily_site_report.date')
-            ->where('daily_site_report.date',$date)
-            ->where('daily_site_report.proj_id',$proj)
-            ->orderBy('daily_site_report.proj_id', 'ASC')
-            ->orderBy('employees.emp_id', 'ASC')
-            ->get();
-        }
-        else
-        {
-            $ds_report = Daily_site_report::join('site_employee', 'daily_site_report.id', '=', 'site_employee.dsreport_id')
-            ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
-            ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
-            ->select('projects.proj_name','employees.emp_name','employees.Skills','employees.Amount','daily_site_report.date')
-            ->where('daily_site_report.date',$date)
-            ->orderBy('daily_site_report.proj_id', 'ASC')
-            ->orderBy('employees.emp_id', 'ASC')
-            ->get();
-        }
-
-        return response()->json([
-            'ds_report'=>$ds_report,
+            'ds_report'=>$projects,
         ]);
     }
     /**

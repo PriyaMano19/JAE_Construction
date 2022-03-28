@@ -61,8 +61,7 @@ Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
 Route::PUT('/addreceived', 'DSReportController@update')->name('dsreport.update');
 Route::PUT('/addtrans', 'DSReportController@trans')->name('dsreport.trans');
 Route::PUT('/addemployee', 'DSReportController@addemployee')->name('dsreport.addemployee');
-Route::get('/dsrcat', 'DSReportController@dsrcat');
-Route::get('/dsrcatemp', 'DSReportController@dsrcatemp');
+Route::get('/loadData', 'DSReportController@loadData');
 
 Route::get('/projcat', 'DSReportController@projcat');
 Route::get('/catitem', 'DSReportController@catitem');
