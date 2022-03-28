@@ -231,28 +231,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
-    $("#proj_id").change(function() {
-        var proj_id = $(this).val();
-        $.ajax({
-            type: 'get',
-            url: '{!!url('projcat')!!}',
-            data: {
-                'proj_id': proj_id
-            },
-            success: function(response) {
-                //alert(response);
-                $('#cate_id').html(response);
-            }
-        });
-    });
 
-    $("#cate_id").change(function() {
-        var cate_id = $(this).val();
-        var proj_id = $("#proj_id").val();
-        fetchcat(cate_id);
-        fetchcat_trans(cate_id);
-        projects_for_trans(cate_id,proj_id);
-    });
 
     function fetchcat(cate_id) {
         $.ajax({
@@ -378,6 +357,7 @@ $(document).ready(function() {
         });
         
         fetchcat_trans(catogery_id);
+        projects_for_trans(catogery_id,project_id);
     });
 
     $("#add_trans").click(function() {
@@ -416,7 +396,6 @@ $(document).ready(function() {
         var project_id = $("#proj_id").val();
         var catogery_id = $("#cate_id").val();
 
-        //alert(transferred_qty);
         $.ajax({
             type: 'get',
             url: '{!!url('insert_emp_amount')!!}',

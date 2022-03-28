@@ -53,7 +53,7 @@
 
       </style>
 
-      <a href="<?php echo url("/add_budget");  ?>" class="btn-plus"><i class="fa fa-plus fa-2xl"></i></a>
+      <a href="{{route('add_budget')}}" class="btn-plus"><i class="fa fa-plus fa-2xl"></i></a>
 
       <!-- Modal -->
       <div style="margin-top: 60px;" id="myModal" class="modal fade" role="dialog">

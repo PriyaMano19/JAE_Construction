@@ -44,7 +44,7 @@ Route::get('/projedit/{id}', 'ProjectController@edit')->name('project.edit');
 
 Route::get('/budget', 'BudgetController@index')->name('budget');
 // By Senthoo
-Route::get('/add_budget', 'BudgetController@addbudget');
+Route::get('/add_budget', 'BudgetController@addbudget')->name('add_budget');
 Route::get('/show_cat_budget', 'BudgetController@show_cat_budget');
 Route::get('/insert_budget', 'BudgetController@insert_budget');
 Route::get('/complete_budget/{id}', 'BudgetController@complete_budget');
