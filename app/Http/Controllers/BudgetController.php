@@ -275,7 +275,7 @@ class BudgetController extends Controller
                         <td class="text-center"><?php echo $this->catogery_name($budget_cat->catogery_id);  ?></td>
                         <td class="text-right"><?php echo $budget_cat->amount;  ?>.00</td>
                         <td class="text-center">
-                            <a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                            <a class="btn btn-sm btn-danger">Delete</a>
                         </td> 
                     </tr>
                     <?php

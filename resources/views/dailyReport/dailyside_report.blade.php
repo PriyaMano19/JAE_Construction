@@ -97,7 +97,7 @@
                     <div class="m-b-10 col-sm-4">
                         <label for="date">Date:</label>
                         <input class="form-control" type="date" name="date" placeholder="Date" id="selectedDate"
-                            value="{{date('Y-m-d')}}" raedonly>
+                            value="{{$sel_date}}" raedonly>
                     </div>
                 </div>
                 <div class="row">

@@ -446,7 +446,7 @@ class DSReportController extends Controller
         $sel_project = 0;
         $sel_category = 0;
 
-        
+        $sel_date = $reportData->date;
 
         return view('dailyReport.dailyside_report')
         ->with('employee',$employee)
@@ -455,6 +455,7 @@ class DSReportController extends Controller
         ->with('items',$items)
         ->with('sel_project',$sel_project)
         ->with('sel_category',$sel_category)
+        ->with('sel_date',$sel_date)
         ->with('project_id',$project_id)
         ->with('catogery_id',$catogery_id)
         ->with('report_id',$id);
@@ -571,11 +572,13 @@ class DSReportController extends Controller
                 <th class="text-center">Quantity</th>
                 <th class="text-right">Unit Price</th>
                 <th class="text-right">Total</th>
+                <th class="text-right">Action</th>
             </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 1;
+                $total = 0;
                 foreach ($received_items as $rec) {
                     ?>
                     <tr>
@@ -583,12 +586,21 @@ class DSReportController extends Controller
                         <td class="text-center"><?php echo $rec->item_id; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
                         <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
-                        <td class="text-right"><?php echo $qty*$uprice; ?>.00</td>
+                        <td class="text-right"><?php echo $tot = $qty*$uprice; ?>.00</td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-danger">Delete</a>
+                        </td>
                     </tr>
                     <?php
+                $total = $total + $tot;
                 $i++;
                 }
                 ?>
+                    <tr>
+                        <td colspan="4" class="text-center"><b><?php echo "Sub Total for Received Items : "; ?></b></td>
+                        <td class="text-right"><b><?php echo $total; ?>.00</b></td>
+                        <td class="text-center"></td>
+                    </tr>
             </tbody>
         </table>
         <?php
@@ -610,11 +622,13 @@ class DSReportController extends Controller
                 <th class="text-center">Quantity</th>
                 <th class="text-right">Unit Price</th>
                 <th class="text-right">Total</th>
+                <th class="text-right">Action</th>
             </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 1;
+                $total = 0;
                 foreach ($received_items as $rec) {
                     ?>
                     <tr>
@@ -622,12 +636,21 @@ class DSReportController extends Controller
                         <td class="text-center"><?php echo $rec->item_id; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
                         <td class="text-right"><?php echo $uprice= $rec->unit_price*-1; ?>.00</td>
-                        <td class="text-right"><?php echo $qty*$uprice*-1; ?>.00</td>
+                        <td class="text-right"><?php echo $tot = $qty*$uprice*-1; ?>.00</td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-danger">Delete</a>
+                        </td>
                     </tr>
                     <?php
+                $total = $total + $tot;
                 $i++;
                 }
                 ?>
+                    <tr>
+                        <td colspan="4" class="text-center"><b><?php echo "Sub Total for Transferred Items : "; ?></b></td>
+                        <td class="text-right"><b><?php echo $total; ?>.00</b></td>
+                        <td class="text-center"></td>
+                    </tr>
             </tbody>
         </table>
         <?php
@@ -648,11 +671,13 @@ class DSReportController extends Controller
                 <th class="text-center">Employee Name</th>
                 <th class="text-center">Skills</th>
                 <th class="text-center">Amount</th>
+                <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 1;
+                $total = 0;
                 foreach ($received_items as $rec) {
                     ?>
                     <tr>
@@ -660,11 +685,20 @@ class DSReportController extends Controller
                         <td class="text-center"><?php echo $rec->emp_name; ?></td>
                         <td class="text-center"><?php echo $rec->Skills; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->amount; ?></td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-danger">Delete</a>
+                        </td>
                     </tr>
                     <?php
+                $total = $total + $rec->amount;
                 $i++;
                 }
                 ?>
+                    <tr>
+                        <td colspan="3" class="text-center"><b><?php echo "Sub Total for the Employees : "; ?></b></td>
+                        <td class="text-center"><b><?php echo $total; ?>.00</b></td>
+                        <td class="text-center"></td>
+                    </tr>
             </tbody>
         </table>
         <?php
