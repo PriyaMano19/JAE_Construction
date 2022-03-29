@@ -136,32 +136,20 @@ class DSReportController extends Controller
      */
     public function update(Request $request)
     {
-        $request['transfer_proj_id'] = 0;
-        $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        
-        if($ds_ids > 0)
-        {
-        }
-        else
-        {
-            Daily_site_report::create($request->all());
-        }
-        Site_item::create($request->all());
-        $ds_id = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        $ds_item = Site_item::where('item_id', $request['item_id'])->where('qty', $request['qty'])->where('unit_price', $request['unit_price'])->max('id');
-        
-        Site_item::where('id', $ds_item)
-                ->update(['dsreport_id' => $ds_id]);
+        $selectedDate = $request['date'];
+        $project_id = $request['proj_id'];
+        $catogery_id = $request['cate_id'];
 
-        $project = Project::all();
-        $employee = Employee::all();
-        $sel_project = $request['proj_id'];
-        $sel_category = $request['cate_id'];
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
 
-        return view('front.dailyside_report')
-        ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('employee',$employee)
-        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
+        $completed = DB::table('daily_site_report')
+              ->where('id', $report_id)
+              ->update(['is_completed' => 1]);
+
+            $project = Project::all();
+            $date = date('Y-m-d');
+            return redirect()->route('dsreport')
+            ->with('date',$date)->with('project',$project);
     }
 
     /**
@@ -623,12 +611,17 @@ class DSReportController extends Controller
                 $total = $total + $tot;
                 $i++;
                 }
+                if($i > 1)
+                {
                 ?>
                     <tr>
                         <td colspan="4" class="text-center"><b><?php echo "Sub Total for Received Items : "; ?></b></td>
                         <td class="text-right"><b><?php echo $total; ?>.00</b></td>
                         <td class="text-center"></td>
                     </tr>
+                <?php
+                }
+                ?>
             </tbody>
         </table>
         <?php
@@ -662,9 +655,9 @@ class DSReportController extends Controller
                     <tr>
                         <td class="text-center"><?php echo $i; ?></td>
                         <td class="text-center"><?php echo $rec->item_id; ?></td>
-                        <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
-                        <td class="text-right"><?php echo $uprice= $rec->unit_price*-1; ?>.00</td>
-                        <td class="text-right"><?php echo $tot = $qty*$uprice*-1; ?>.00</td>
+                        <td class="text-center"><?php echo $qty = $rec->qty*-1; ?></td>
+                        <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
+                        <td class="text-right"><?php echo $tot = $qty*$uprice; ?>.00</td>
                         <td class="text-center">
                             <a class="btn btn-sm btn-danger">Delete</a>
                         </td>
@@ -673,12 +666,17 @@ class DSReportController extends Controller
                 $total = $total + $tot;
                 $i++;
                 }
+                if($i > 1)
+                {
                 ?>
                     <tr>
                         <td colspan="4" class="text-center"><b><?php echo "Sub Total for Transferred Items : "; ?></b></td>
                         <td class="text-right"><b><?php echo $total; ?>.00</b></td>
                         <td class="text-center"></td>
                     </tr>
+                <?php
+                }
+                ?>
             </tbody>
         </table>
         <?php
@@ -722,48 +720,19 @@ class DSReportController extends Controller
                 $total = $total + $rec->amount;
                 $i++;
                 }
+                if($i > 1)
+                {
                 ?>
                     <tr>
                         <td colspan="3" class="text-center"><b><?php echo "Sub Total for the Employees : "; ?></b></td>
                         <td class="text-center"><b><?php echo $total; ?>.00</b></td>
                         <td class="text-center"></td>
                     </tr>
-                    <tr>
-                        <td colspan="5"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4"></td>
-                        <td class="text-center">
-                            <a onclick="confirm_complete()" href="#" class="btn btn-sm btn-dark">Complete</a>
-                        </td>
-                    </tr>
+                <?php
+                }
+                ?>
             </tbody>
         </table>
-        <script>
-            function confirm_complete() {
-                let text = "Once you click complete!\n.You can't modify the Report";
-                var report_id =  $("#report_id").val();
-                if (confirm(text) == true) {
-                    // Complete the project
-                    window.location.href = "/complete_dsreport/"+report_id;
-                } 
-                else {
-                    //text = "You canceled!";
-                }
-            }
-        </script>
         <?php
     }
-    public function complete_dsreport($report_id)
-    {
-            $completed = DB::table('daily_site_report')
-              ->where('id', $report_id)
-              ->update(['is_completed' => 1]);
-
-            $project = Project::all();
-            $date = date('Y-m-d');
-            return redirect()->route('dsreport')
-            ->with('date',$date)->with('project',$project);
-    }
-
 }

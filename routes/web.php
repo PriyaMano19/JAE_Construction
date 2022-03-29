@@ -58,7 +58,7 @@ Route::get('/budgeview/{id}', 'BudgetController@show')->name('budget.show');
 
 Route::get('/dsreport', 'DSReportController@index')->name('dsreport');
 //Route::get('/dsradd', 'DSReportController@add')->name('dsreport.add');
-Route::PUT('/addreceived', 'DSReportController@update')->name('dsreport.update');
+Route::PUT('/update', 'DSReportController@update')->name('dsreport.update');
 Route::PUT('/addtrans', 'DSReportController@trans')->name('dsreport.trans');
 Route::PUT('/addemployee', 'DSReportController@addemployee')->name('dsreport.addemployee');
 Route::get('/loadData', 'DSReportController@loadData');

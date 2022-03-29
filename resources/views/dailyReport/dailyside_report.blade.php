@@ -222,7 +222,7 @@
     </div>
 
     <div class="modal-footer">
-        <button style="border-radius: 0px;" type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+        <input style="border-radius: 0px;" type="submit" class="btn btn-sm btn-dark" data-dismiss="modal"></button>
     </div>
     </form>
 </div>

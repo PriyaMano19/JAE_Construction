@@ -299,7 +299,7 @@ class BudgetController extends Controller
                 var budget_id =  $("#budget_id").val();
                 if (confirm(text) == true) {
                     // Complete the project
-                    window.location.href = "/complete_budget/"+budget_id;
+                    window.location.href = "complete_budget/"+budget_id;
                 } 
                 else {
                     //text = "You canceled!";
