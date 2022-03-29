@@ -545,6 +545,34 @@ class DSReportController extends Controller
         }
     }
 
+    public function loadEmp(Request $request)
+    {
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+        $this->show_employees($report_id);
+    }
+    public function loadRec(Request $request)
+    {
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+        $this->show_items($report_id);
+    }
+    public function loadTrans(Request $request)
+    {
+        $selectedDate = $request->selectedDate;
+        $project_id = $request->project_id;
+        $catogery_id = $request->catogery_id;
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
+        $this->show_items_trans($report_id);
+    }
+
     // Get Report ID
     public function getReport_id($project_id,$catogery_id,$selectedDate)
     {
@@ -713,7 +741,7 @@ class DSReportController extends Controller
         </table>
         <script>
             function confirm_complete() {
-                let text = "Once you click complete!\n.You can't modify the report";
+                let text = "Once you click complete!\n.You can't modify the Report";
                 var report_id =  $("#report_id").val();
                 if (confirm(text) == true) {
                     // Complete the project

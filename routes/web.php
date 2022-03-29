@@ -77,3 +77,7 @@ Route::get('insert_transferred', 'DSReportController@insert_transferred');
 Route::get('insert_emp_amount', 'DSReportController@insert_emp_amount');
 Route::get('/delete_emp_amount/{id}', 'DSReportController@delete_emp_amount');
 Route::get('/complete_dsreport/{id}', 'DSReportController@complete_dsreport');
+
+Route::get('loadEmp', 'DSReportController@loadEmp');
+Route::get('loadRec', 'DSReportController@loadRec');
+Route::get('loadTrans', 'DSReportController@loadTrans');

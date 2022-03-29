@@ -232,7 +232,66 @@
 <script>
 $(document).ready(function() {
 
+loadEmp();
+loadRec();
+loadTrans();
+function loadEmp() 
+{
+    var selectedDate = $("#selectedDate").val();
+    var project_id = $("#proj_id").val();
+    var catogery_id = $("#cate_id").val();
 
+    $.ajax({
+        type: 'get',
+        url: '{!!url('loadEmp')!!}',
+        data: {
+            'selectedDate': selectedDate,
+            'project_id': project_id,
+            'catogery_id': catogery_id
+        },
+        success: function(response) {
+            $("#employees").html(response);
+        }
+    });
+}
+function loadRec() 
+{
+    var selectedDate = $("#selectedDate").val();
+    var project_id = $("#proj_id").val();
+    var catogery_id = $("#cate_id").val();
+
+    $.ajax({
+        type: 'get',
+        url: '{!!url('loadRec')!!}',
+        data: {
+            'selectedDate': selectedDate,
+            'project_id': project_id,
+            'catogery_id': catogery_id
+        },
+        success: function(response) {
+            $("#received_items").html(response);
+        }
+    });
+}
+function loadTrans() 
+{
+    var selectedDate = $("#selectedDate").val();
+    var project_id = $("#proj_id").val();
+    var catogery_id = $("#cate_id").val();
+
+    $.ajax({
+        type: 'get',
+        url: '{!!url('loadTrans')!!}',
+        data: {
+            'selectedDate': selectedDate,
+            'project_id': project_id,
+            'catogery_id': catogery_id
+        },
+        success: function(response) {
+            $("#transferred_items").html(response);
+        }
+    });
+}
     function fetchcat(cate_id) {
         $.ajax({
             type: 'get',
