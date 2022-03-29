@@ -664,6 +664,7 @@ class DSReportController extends Controller
         ->where('site_employee.dsreport_id',$report_id)
         ->get();
         ?>
+        <input type="text" value="<?php echo $report_id; ?>" id="report_id" hidden>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -686,7 +687,7 @@ class DSReportController extends Controller
                         <td class="text-center"><?php echo $rec->Skills; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->amount; ?></td>
                         <td class="text-center">
-                            <a class="btn btn-sm btn-danger">Delete</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
                     <?php
@@ -699,8 +700,42 @@ class DSReportController extends Controller
                         <td class="text-center"><b><?php echo $total; ?>.00</b></td>
                         <td class="text-center"></td>
                     </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td class="text-center">
+                            <a onclick="confirm_complete()" href="#" class="btn btn-sm btn-dark">Complete</a>
+                        </td>
+                    </tr>
             </tbody>
         </table>
+        <script>
+            function confirm_complete() {
+                let text = "Once you click complete!\n.You can't modify the report";
+                var report_id =  $("#report_id").val();
+                if (confirm(text) == true) {
+                    // Complete the project
+                    window.location.href = "/complete_dsreport/"+report_id;
+                } 
+                else {
+                    //text = "You canceled!";
+                }
+            }
+        </script>
         <?php
     }
+    public function complete_dsreport($report_id)
+    {
+            $completed = DB::table('daily_site_report')
+              ->where('id', $report_id)
+              ->update(['is_completed' => 1]);
+
+            $project = Project::all();
+            $date = date('Y-m-d');
+            return redirect()->route('dsreport')
+            ->with('date',$date)->with('project',$project);
+    }
+
 }

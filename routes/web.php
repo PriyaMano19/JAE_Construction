@@ -75,3 +75,5 @@ Route::get('/DailySiteUpdate/{id}', 'DSReportController@updateDailyReports')->na
 Route::get('insert_received', 'DSReportController@insert_received');
 Route::get('insert_transferred', 'DSReportController@insert_transferred');
 Route::get('insert_emp_amount', 'DSReportController@insert_emp_amount');
+Route::get('/delete_emp_amount/{id}', 'DSReportController@delete_emp_amount');
+Route::get('/complete_dsreport/{id}', 'DSReportController@complete_dsreport');
