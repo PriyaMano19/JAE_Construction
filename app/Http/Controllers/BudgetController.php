@@ -17,7 +17,11 @@ class BudgetController extends Controller
      */
     public function index()
     {
-        $budget = Budget::all();
+        $budget = DB::table('proj_budgets')
+        ->join('projects','proj_budgets.proj_id','=','projects.proj_id')
+        ->select('proj_budgets.budg_id','proj_budgets.proj_id','proj_budgets.budg_version','projects.proj_name')
+        ->get();
+
         $project = Project::all();
         $category = Category::all();
      

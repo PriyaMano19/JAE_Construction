@@ -39,7 +39,7 @@ class DSReportController extends Controller
             $projects = DB::table('daily_site_report')
                 ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
                 ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date')
                 ->where('daily_site_report.date', $date)
                 ->where('daily_site_report.proj_id', $project_id)
                 ->get();
@@ -49,7 +49,7 @@ class DSReportController extends Controller
             $projects = DB::table('daily_site_report')
                 ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
                 ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date')
                 ->where('daily_site_report.date', $date)
                 ->get();
         }
@@ -410,10 +410,11 @@ class DSReportController extends Controller
     // Update Daily Site Report 
     public function updateDailyReports($id)
     {
-        $reportData = $this->reportData($id);
-
-        $project_id = $reportData->proj_id;
-        $catogery_id = $reportData->cate_id;
+        //$reportData = $this->reportData($id);
+        $array = explode('_',$id);
+        $project_id = $array[0];
+        $catogery_id = $array[1];
+        $sel_date = $array[2];
 
         $project = DB::table('projects')
             ->join('proj_budgets', 'projects.proj_id', '=', 'proj_budgets.proj_id')
@@ -433,8 +434,6 @@ class DSReportController extends Controller
         $employee = Employee::all();
         $sel_project = 0;
         $sel_category = 0;
-
-        $sel_date = $reportData->date;
 
         return view('dailyReport.dailyside_report')
         ->with('employee',$employee)
@@ -576,6 +575,8 @@ class DSReportController extends Controller
     {
         // Get Items
         $received_items = DB::table('site_item')
+        ->join('items', 'site_item.item_id', '=', 'items.id')
+        ->select('site_item.*','items.item_name')
         ->where('dsreport_id',$report_id)
         ->where('transfer_proj_id',0)
         ->get();
@@ -599,7 +600,7 @@ class DSReportController extends Controller
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td class="text-center"><?php echo $rec->item_id; ?></td>
+                        <td class="text-center"><?php echo $rec->item_name; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->qty; ?></td>
                         <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
                         <td class="text-right"><?php echo $tot = $qty*$uprice; ?>.00</td>
@@ -631,6 +632,8 @@ class DSReportController extends Controller
     {
         // Get Items
         $received_items = DB::table('site_item')
+        ->join('items', 'site_item.item_id', '=', 'items.id')
+        ->select('site_item.*','items.item_name')
         ->where('dsreport_id',$report_id)
         ->where('transfer_proj_id', '>',0)
         ->get();
@@ -654,7 +657,7 @@ class DSReportController extends Controller
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td class="text-center"><?php echo $rec->item_id; ?></td>
+                        <td class="text-center"><?php echo $rec->item_name; ?></td>
                         <td class="text-center"><?php echo $qty = $rec->qty*-1; ?></td>
                         <td class="text-right"><?php echo $uprice= $rec->unit_price; ?>.00</td>
                         <td class="text-right"><?php echo $tot = $qty*$uprice; ?>.00</td>

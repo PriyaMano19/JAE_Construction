@@ -160,12 +160,9 @@
                   <thead>
                  
                     <tr>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget ID</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Project ID</th>
-                   
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15 ps-2">Project Name</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Budget version</th>
-                      
-                   
                       <th class="text-secondary opacity-15">Actions</th>
                     </tr>
                     
@@ -177,18 +174,16 @@
                       {{$budg->budg_id}}
                       </td>
                       <td class="align-middle text-center text-sm">
-                      {{$budg->proj_id}}
+                      {{$budg->proj_name}}
                       </td>
                      
                       <td class="align-middle text-center">
                       {{$budg->budg_version}}
                       </td>
                      
-                     
                       <td class="align-middle">
                         <a href="{{ route('budget.edit',$budg->budg_id) }}" class="btn btn-success"  ><i class="fa fa-pencil"></i></a>
-                          <a href="{{ route('budget.show',$budg->budg_id) }}" class="btn btn-warning "><i class="fa fa-eye "></i></a>
-                          
+                        <a href="{{ route('budget.show',$budg->budg_id) }}" class="btn btn-warning "><i class="fa fa-eye "></i></a>
                       </td>
                     </tr>
                    @endforeach

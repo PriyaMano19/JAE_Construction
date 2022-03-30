@@ -176,7 +176,7 @@
                      <td class="text-center text-secondary text-xs">'+ item.proj_name+'</td>\
                      <td class="text-center text-secondary text-xs">'+ item.cat_name+'</td>\
                      <td class="text-center text-secondary text-xs">\
-                      <a href="DailySiteUpdate/'+ item.proj_id+'" class="btn btn-warning"><i class="fa fa-eye"></i></a>\
+                      <a href="DailySiteUpdate/'+ item.proj_id+'_'+ item.cate_id+'_'+ item.date+'" class="btn btn-warning"><i class="fa fa-eye"></i></a>\
                       <a href="" class="btn btn-success"><i class="fa fa-print"></i></a>\
                      </td>\
                    </tr>');
