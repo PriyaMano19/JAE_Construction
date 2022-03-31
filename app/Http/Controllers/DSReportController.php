@@ -512,8 +512,8 @@ class DSReportController extends Controller
     // Insert Received items
     public function insert_received(Request $request)
     {
-        $available_id = 0;
-        $available_qty = 0;
+        $availableId = 0;
+        $availableQty = 0;
 
         $item_id = $request->item_id;
         $received_qty = $request->received_qty;
@@ -529,15 +529,20 @@ class DSReportController extends Controller
                 ->where('dsreport_id',$report_id)
                 ->where('item_id',$item_id)
                 ->where('unit_price',$received_price)
-                ->first();
-        $available_id = $available->id;
-        $available_qty = $available->qty;
-
-        if($available_qty > 0)
+                ->get();
+        
+        foreach ($available as $avail) 
         {
-            $completed = DB::table('site_item')
-              ->where('id', $available_id)
-              ->update(['qty' => $available_id+$received_qty]);
+            $availableId = $avail->id;
+            $availableQty = $avail->qty;
+        }
+        $availableCount = $available->count();
+
+        if($availableCount > 0)
+        {
+            $save = DB::table('site_item')
+              ->where('id', $availableId)
+              ->update(['qty' => $availableQty+$received_qty]);
         }
         else
         {
