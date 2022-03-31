@@ -327,13 +327,14 @@ function loadTrans()
         });
     }
 
-    function projects_for_trans(cate_id, project_id) {
+    function projects_for_trans(cate_id, project_id, date) {
         $.ajax({
             type: 'get',
             url: '{!!url('projects_for_trans')!!}',
             data: {
                 'cate_id': cate_id,
-                'project_id': project_id
+                'project_id': project_id,
+                'date' : date
             },
             success: function(response) {
                 $('#transfer_proj_id').html(response);
@@ -416,7 +417,7 @@ function loadTrans()
         });
         
         fetchcat_trans(catogery_id);
-        projects_for_trans(catogery_id,project_id);
+        projects_for_trans(catogery_id,project_id,selectedDate);
     });
 
     $("#add_trans").click(function() {

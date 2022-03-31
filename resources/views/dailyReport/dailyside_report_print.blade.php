@@ -60,10 +60,11 @@
 </style>
 <!-- Modal content-->
 <div class="modal-content">
-    <div class="modal-header" style="color:white;background-color: #B2022F;">
-        <div style="flex-direction:column;">
-            
-        </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 text-center font-weight-bolder">Date : {{$date}}</div>
+        <div class="col-md-4 text-center font-weight-bolder">Category : {{$category_name}}</div>
+        <div class="col-md-4 text-center font-weight-bolder">Site : {{$project_name}}</div>
     </div>
 
     <div class="modal-body">
@@ -81,7 +82,10 @@
             </thead>
             <tbody>
             @php
-            $i = 1
+            $i = 1;
+            $rec_tot = 0;
+            $trans_tot = 0;
+            $emp_tot = 0;
             @endphp
                 @foreach($rec_items as $rec)
                 <tr>
@@ -94,10 +98,19 @@
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
                 </tr>
                 @php
-                $i = $i + 1
+                $i = $i + 1;
+                $rec_tot = $rec_tot + $rec->qty * $rec->unit_price;
                 @endphp
                 @endforeach
-
+                <tr>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                    <th colspan="4" class="text-right text-secondary text-xs font-weight-bolder opacity-15">Sub Total for Received Items : </th>
+                    <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">{{$rec_tot}}.00</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                </tr>
+                @php
+                $i = 1;
+                @endphp
                 @foreach($trans_items as $trans)
                 <tr>
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15">{{$i}}</th>
@@ -106,14 +119,18 @@
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15">{{$trans->unit_price}}</th>
                     <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">{{$trans->qty * $trans->unit_price * -1}}.00</th>
-                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15">{{$trans->transfer_proj_id}}</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15">{{$trans->proj_name}}</th>
                 </tr>
                 @php
-                $i = $i + 1
+                $i = $i + 1;
+                $trans_tot = $trans_tot + $trans->qty * $trans->unit_price * -1;
                 @endphp
                 @endforeach
                 <tr>
-                    <th colspan="7" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15"></th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                    <th colspan="4" class="text-right text-secondary text-xs font-weight-bolder opacity-15">Sub Total for Transferred Items : </th>
+                    <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">{{$trans_tot}}.00</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
                 </tr>
                 <tr>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">No</th>
@@ -122,6 +139,9 @@
                     <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Amount</th>
                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Remark</th>
                 </tr>
+                @php
+                $i = 1;
+                @endphp
                 @foreach($employee as $emp)
                 <tr>
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15">{{$i}}</th>
@@ -131,9 +151,25 @@
                     <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
                 </tr>
                 @php
-                $i = $i + 1
+                $i = $i + 1;
+                $emp_tot = $emp_tot + $emp->amount;
                 @endphp
                 @endforeach
+                <tr>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                    <th colspan="4" class="text-right text-secondary text-xs font-weight-bolder opacity-15">Sub Total for Employees' Salary : </th>
+                    <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">{{$emp_tot}}.00</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                </tr>
+                @php
+                $grand_total = $rec_tot - $trans_tot + $emp_tot;
+                @endphp
+                <tr>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                    <th colspan="4" class="text-right text-secondary text-xs font-weight-bolder opacity-15">Grand Total : </th>
+                    <th class="text-right text-uppercase text-secondary text-xs font-weight-bolder opacity-15">{{$grand_total}}.00</th>
+                    <th class="text-center text-secondary text-xs font-weight-bolder opacity-15"></th>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -317,6 +317,7 @@ class DSReportController extends Controller
     {
         $proj_id = $request->project_id;
         $cate_id = $request->cate_id;
+        $date = $request->date;
 
         //$budget_id = $this->get_budget_id($proj_id);
         $project = DB::table('daily_site_report')
@@ -324,6 +325,7 @@ class DSReportController extends Controller
         ->select('projects.*')
         ->where('daily_site_report.cate_id',$cate_id)
         ->where('daily_site_report.proj_id','!=',$proj_id)
+        ->where('daily_site_report.date',$date)
         ->get();
         
         foreach ($project as $pro) {
@@ -456,6 +458,18 @@ class DSReportController extends Controller
         $catogery_id = $array[1];
         $sel_date = $array[2];
 
+        $project = DB::table('projects')
+            ->where('proj_id',$project_id)
+            ->first();
+
+        $project_name = $project->proj_name;
+
+        $category = DB::table('categories')
+            ->where('id',$catogery_id)
+            ->first();
+        
+        $category_name = $category->cat_name;
+
         $report_id = $this->getReport_id($project_id,$catogery_id,$sel_date);
         
         $rec_items = DB::table('site_item')
@@ -466,7 +480,8 @@ class DSReportController extends Controller
         ->get();
         $trans_items = DB::table('site_item')
         ->join('items', 'site_item.item_id', '=', 'items.id')
-        ->select('site_item.*','items.item_name')
+        ->join('projects', 'site_item.transfer_proj_id', '=', 'projects.proj_id')
+        ->select('site_item.*','items.item_name','projects.proj_name')
         ->where('dsreport_id',$report_id)
         ->where('transfer_proj_id','>',0)
         ->get();
@@ -476,6 +491,9 @@ class DSReportController extends Controller
         ->where('dsreport_id',$report_id)
         ->get();
         return view('dailyReport.dailyside_report_print')
+        ->with('date',$sel_date)
+        ->with('category_name',$category_name)
+        ->with('project_name',$project_name)
         ->with('rec_items',$rec_items)
         ->with('trans_items',$trans_items)
         ->with('employee',$employee)
