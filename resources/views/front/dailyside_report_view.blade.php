@@ -126,6 +126,7 @@
                     <tr>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Project</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Category</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Status</th>
                       <!--<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Allocated Budget</th>-->
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-15">Action</th>
                     </tr>
@@ -172,14 +173,30 @@
          success:function(response){
            $('tbody').find('tr').remove().end();
            $.each(response.ds_report, function(key, item){
-             $('tbody').append('<tr>\
+             if(item.is_completed == 0)
+             {
+              $('tbody').append('<tr>\
                      <td class="text-center text-secondary text-xs">'+ item.proj_name+'</td>\
                      <td class="text-center text-secondary text-xs">'+ item.cat_name+'</td>\
+                     <td class="text-center text-secondary text-xs"> In-Process </td>\
                      <td class="text-center text-secondary text-xs">\
                       <a href="DailySiteUpdate/'+ item.proj_id+'_'+ item.cate_id+'_'+ item.date+'" class="btn btn-warning"><i class="fa fa-eye"></i></a>\
+                      <a href="#" style="pointer-events: none;" class="btn btn-success"><i class="fa fa-print"></i></a>\
+                     </td>\
+                   </tr>');
+             }
+             else
+             {
+              $('tbody').append('<tr>\
+                     <td class="text-center text-secondary text-xs">'+ item.proj_name+'</td>\
+                     <td class="text-center text-secondary text-xs">'+ item.cat_name+'</td>\
+                     <td class="text-center text-secondary text-xs"> Completed </td>\
+                     <td class="text-center text-secondary text-xs">\
+                      <a href="#" style="pointer-events: none;" class="btn btn-warning"><i class="fa fa-eye"></i></a>\
                       <a href="DailySitePrint/'+ item.proj_id+'_'+ item.cate_id+'_'+ item.date+'" class="btn btn-success"><i class="fa fa-print"></i></a>\
                      </td>\
                    </tr>');
+             }
            });
          }
        });

@@ -39,7 +39,7 @@ class DSReportController extends Controller
             $projects = DB::table('daily_site_report')
                 ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
                 ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date','is_completed')
                 ->where('daily_site_report.date', $date)
                 ->where('daily_site_report.proj_id', $project_id)
                 ->get();
@@ -49,7 +49,7 @@ class DSReportController extends Controller
             $projects = DB::table('daily_site_report')
                 ->join('projects', 'daily_site_report.proj_id', '=', 'projects.proj_id')
                 ->join('categories', 'daily_site_report.cate_id', '=', 'categories.id')
-                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date')
+                ->select('projects.proj_name','categories.cat_name','daily_site_report.proj_id','daily_site_report.cate_id','daily_site_report.date','is_completed')
                 ->where('daily_site_report.date', $date)
                 ->get();
         }
