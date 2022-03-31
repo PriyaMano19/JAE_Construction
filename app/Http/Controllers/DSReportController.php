@@ -512,6 +512,9 @@ class DSReportController extends Controller
     // Insert Received items
     public function insert_received(Request $request)
     {
+        $available_id = 0;
+        $available_qty = 0;
+
         $item_id = $request->item_id;
         $received_qty = $request->received_qty;
         $received_price = $request->received_price;
@@ -521,10 +524,29 @@ class DSReportController extends Controller
 
         $report_id = $this->getReport_id($project_id,$catogery_id,$selectedDate);
 
+        //Already entered or not
+        $available = DB::table('site_item')
+                ->where('dsreport_id',$report_id)
+                ->where('item_id',$item_id)
+                ->where('unit_price',$received_price)
+                ->first();
+        $available_id = $available->id;
+        $available_qty = $available->qty;
+
+        if($available_qty > 0)
+        {
+            $completed = DB::table('site_item')
+              ->where('id', $available_id)
+              ->update(['qty' => $available_id+$received_qty]);
+        }
+        else
+        {
+            $save = DB::insert('insert into site_item (dsreport_id,item_id,qty,unit_price) 
+            values (?,?,?,?)', 
+            [$report_id,$item_id,$received_qty,$received_price]);
+        }
         // Insert Rec Items
-        $save = DB::insert('insert into site_item (dsreport_id,item_id,qty,unit_price) 
-        values (?,?,?,?)', 
-        [$report_id,$item_id,$received_qty,$received_price]);
+        
 
         if ($save) {
             $this->show_items($report_id);
