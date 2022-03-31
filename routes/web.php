@@ -72,6 +72,7 @@ Route::get('/empdetails', 'DSReportController@empdetails');
 //By Senthoo in Daily Report
 Route::post('/addDailyprojets', 'DSReportController@insertDailyReports')->name('dsreport.add');
 Route::get('/DailySiteUpdate/{id}', 'DSReportController@updateDailyReports')->name('dsreport.DailySiteUpdate');
+Route::get('/DailySitePrint/{id}', 'DSReportController@printDailyReports')->name('dsreport.DailySitePrint');
 Route::get('insert_received', 'DSReportController@insert_received');
 Route::get('insert_transferred', 'DSReportController@insert_transferred');
 Route::get('insert_emp_amount', 'DSReportController@insert_emp_amount');

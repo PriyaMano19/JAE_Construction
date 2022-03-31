@@ -448,6 +448,40 @@ class DSReportController extends Controller
         ->with('report_id',$id);
     }
 
+    public function printDailyReports($id)
+    {
+        //$reportData = $this->reportData($id);
+        $array = explode('_',$id);
+        $project_id = $array[0];
+        $catogery_id = $array[1];
+        $sel_date = $array[2];
+
+        $report_id = $this->getReport_id($project_id,$catogery_id,$sel_date);
+        
+        $rec_items = DB::table('site_item')
+        ->join('items', 'site_item.item_id', '=', 'items.id')
+        ->select('site_item.*','items.item_name')
+        ->where('dsreport_id',$report_id)
+        ->where('transfer_proj_id',0)
+        ->get();
+        $trans_items = DB::table('site_item')
+        ->join('items', 'site_item.item_id', '=', 'items.id')
+        ->select('site_item.*','items.item_name')
+        ->where('dsreport_id',$report_id)
+        ->where('transfer_proj_id','>',0)
+        ->get();
+        $employee = DB::table('site_employee')
+        ->join('employees', 'site_employee.emp_id', '=', 'employees.emp_id')
+        ->select('site_employee.*','employees.emp_name','employees.Skills')
+        ->where('dsreport_id',$report_id)
+        ->get();
+        return view('dailyReport.dailyside_report_print')
+        ->with('rec_items',$rec_items)
+        ->with('trans_items',$trans_items)
+        ->with('employee',$employee)
+        ->with('report_id',$report_id);
+    }
+
     //Get Report data by report id
     public function reportData($report_id)
     {
