@@ -152,63 +152,9 @@ class DSReportController extends Controller
             ->with('date',$date)->with('project',$project);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function trans(Request $request)
     {
-        $ds_ids = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
         
-        if($ds_ids > 0)
-        {
-        }
-        else
-        {
-            Daily_site_report::create($request->all());
-        }
-        Site_item::create($request->all());
-        $ds_id = Daily_site_report::where('proj_id', $request['proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        $ds_item = Site_item::where('item_id', $request['item_id'])->where('qty', $request['qty'])->where('unit_price', $request['unit_price'])->max('id');
-        
-        Site_item::where('id', $ds_item)
-                ->update(['dsreport_id' => $ds_id]);
-
-                //Trans
-        $ds_id_trans = Daily_site_report::where('proj_id', $request['transfer_proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        if($ds_id_trans > 0)
-        {
-        }
-        else
-        {
-            Daily_site_report::insert([
-                'proj_id' => $request['transfer_proj_id'],
-                'cate_id' => $request['cate_id'],
-                'date' => $request['date']
-            ]);
-        }
-        $ds_id = Daily_site_report::where('proj_id', $request['transfer_proj_id'])->where('cate_id', $request['cate_id'])->where('date', $request['date'])->max('id');
-        $trans_qty = $request['qty']*-1;
-        Site_item::insert([
-            'dsreport_id' => $ds_id,
-            'item_id' => $request['item_id'],
-            'qty' => $trans_qty,
-            'unit_price' => $request['unit_price'],
-            'received_proj_id' => $request['proj_id']
-        ]);
-
-        $project = Project::all();
-        $employee = Employee::all();
-        $sel_project = $request['proj_id'];
-        $sel_category = $request['cate_id'];
-
-        return view('front.dailyside_report')
-        ->with('success','Site Details created successfully')
-        ->with('project',$project)->with('employee',$employee)
-        ->with('sel_project',$sel_project)->with('sel_category',$sel_category);
     }
 
     /**
@@ -288,14 +234,22 @@ class DSReportController extends Controller
     public function trans_catitem(Request $request)
     {
         $cate_id = $request->cate_id;
-        $items = Site_item::groupBy('site_item.item_id')
+        $available_items = Site_item::groupBy('site_item.item_id')
         ->join('daily_site_report', 'site_item.dsreport_id', '=', 'daily_site_report.id')
         ->selectRaw('sum(qty) as sum, site_item.item_id')
         ->where('daily_site_report.cate_id',$cate_id)
         ->having('sum', '>', 0)->get();
-        return response()->json([
-            'items'=>$items,
-        ]);
+        
+        foreach ($available_items as $item) 
+        {
+            $itms = Item::where('id', $item->item_id)->get();
+            foreach($itms as $itm)
+            {
+                ?>
+                    <option value="<?php echo $itm->id; ?>"><?php echo $itm->item_name; ?></option>
+                <?php
+            }
+        }
     }
 
     /**

@@ -235,6 +235,9 @@ $(document).ready(function() {
 loadEmp();
 loadRec();
 loadTrans();
+var cat = $("#cate_id").val();
+fetchcat_trans(cat);
+
 function loadEmp() 
 {
     var selectedDate = $("#selectedDate").val();
@@ -318,11 +321,12 @@ function loadTrans()
                 'cate_id': cate_id
             },
             success: function(response) {
-                $('#transitem').find('option').remove().end();
-                $.each(response.items, function(key, item) {
-                    $('#transitem').append('<option value=' + item.item_id + '>' + item
-                        .item_id + '</option>');
-                });
+                $('#transitem').html(response);
+                // $('#transitem').find('option').remove().end();
+                // $.each(response.items, function(key, item) {
+                //     $('#transitem').append('<option value=' + item.item_id + '>' + item
+                //         .item_id + '</option>');
+                // });
             }
         });
     }
