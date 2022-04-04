@@ -38,7 +38,7 @@ class UserController extends Controller
         $count = $users->count();
 
         if($count > 0) {
-            return redirect()->route('employee');   
+            return redirect()->route('home');   
         }
         else{
             session()->flash('error', 'Invalid Credentials');

@@ -18,7 +18,7 @@ Route::POST('/check','UserController@check')->name('login.check');
 Route::POST('/login','UserController@logout')->name('user.logout');
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'EmployeeController@home')->name('home');
 Route::get('/employee', 'EmployeeController@index')->name('employee');
 Route::POST('/store', 'EmployeeController@store')->name('employee.store');
 Route::PUT('/update/{id}', 'EmployeeController@update')->name('employee.update');

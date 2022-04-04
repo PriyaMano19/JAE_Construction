@@ -40,7 +40,7 @@
       </h1>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
+            <a href="home"><span class="fa fa-home mr-3"></span> Homepage</a>
           </li>
           <li class="active">
               <a href="employee"><span class="fa fa-user mr-3"></span> Employee</a>

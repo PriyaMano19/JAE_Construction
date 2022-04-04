@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -17,6 +18,18 @@ class EmployeeController extends Controller
 
         $employee = Employee::all();
         return view('front.employee')->with('employee',$employee);
+    }
+
+    public function home()
+    {
+
+        $projStatus = DB::table('proj_budgets')
+        ->join('category_budget','proj_budgets.budg_id','=','category_budget.budget_id')
+        ->join('projects','proj_budgets.proj_id','=','projects.proj_id')
+        ->join('categories','category_budget.catogery_id','=','categories.id')
+        ->select('projects.proj_name','categories.cat_name','category_budget.Amount')
+        ->where('proj_budgets.complete',1)->get();
+        return view('home')->with('projStatus',$projStatus);
     }
 
     /**
