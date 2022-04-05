@@ -26,9 +26,9 @@ class EmployeeController extends Controller
         $projStatus = DB::table('proj_budgets')
         ->join('category_budget','proj_budgets.budg_id','=','category_budget.budget_id')
         ->join('projects','proj_budgets.proj_id','=','projects.proj_id')
-        ->join('categories','category_budget.catogery_id','=','categories.id')
-        ->select('projects.proj_name','categories.cat_name','category_budget.Amount')
-        ->where('proj_budgets.complete',1)->get();
+        ->select('proj_budgets.proj_id','projects.proj_name', DB::raw('sum(Amount) as total'))
+        ->where('proj_budgets.complete',1)
+        ->groupBy('proj_budgets.proj_id','projects.proj_name')->get();
         return view('home')->with('projStatus',$projStatus);
     }
 

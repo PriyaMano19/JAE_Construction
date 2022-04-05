@@ -155,7 +155,7 @@ class BudgetController extends Controller
         $project_name = $project->proj_name;
         $budgets = DB::table('proj_budgets')
         ->where('proj_id',$project_id)
-        ->where('complete',0)
+        //->where('complete',0)
         ->get();
 
         if ($budgets->count()) {
@@ -246,7 +246,7 @@ class BudgetController extends Controller
     {
         $budget_id = DB::table('proj_budgets')
         ->where('proj_id',$project_id)
-        ->where('complete',0)
+        //->where('complete',0)
         ->first();
         return $budget_id->budg_id;
     }
@@ -257,14 +257,25 @@ class BudgetController extends Controller
         ->where('budget_id',$budget_id)
         ->get();
         
+        $complete = DB::table('proj_budgets')
+        ->select('complete')
+        ->where('budg_id',$budget_id)
+        ->get();
+
+        foreach($complete as $row)
+        {
+            $is_complete = $row->complete;
+        }
+
         ?>
         <input type="text" value="<?php echo $budget_id; ?>" id="budget_id" hidden>
-        <table class="table table-hover">
+        <table class="table">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Catogery</th>
                 <th>Amount</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -279,7 +290,10 @@ class BudgetController extends Controller
                         <td class="text-center"><?php echo $this->catogery_name($budget_cat->catogery_id);  ?></td>
                         <td class="text-right"><?php echo $budget_cat->amount;  ?>.00</td>
                         <td class="text-center">
-                            <a class="btn btn-sm btn-danger">Delete</a>
+                            <input type="checkbox" id="status" name="status" value="">
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-warning">Edit</a>
                         </td> 
                     </tr>
                     <?php
@@ -291,8 +305,16 @@ class BudgetController extends Controller
                     <td></td>
                     <td class="text-center">Total</td>
                     <td class="text-right"><?php echo $total; ?>.00</td>
+                    <td></td>
                     <td class="text-center">
+                        <?php
+                        if($is_complete == 0)
+                        {
+                    ?>
                         <a onclick="confirm_complete()" href="#" class="btn btn-sm btn-dark">Complete</a>
+                    <?php
+                        }
+                        ?>
                     </td>
                 </tr>
             </tbody>

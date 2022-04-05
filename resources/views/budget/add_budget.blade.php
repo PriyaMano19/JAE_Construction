@@ -88,7 +88,8 @@
                                             <?php
                                             $is_available = BudgetController::is_projectid($project->proj_id);
                                             if ($is_available == 1) {
-                                                $disabled = "disabled";
+                                                //$disabled = "disabled";
+                                                $disabled = "";
                                             }
                                             else{
                                                 $disabled = "";
