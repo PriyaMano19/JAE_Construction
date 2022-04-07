@@ -310,6 +310,7 @@ class DSReportController extends Controller
 
                 $catogery = DB::table('category_budget')
                     ->where('budget_id',$budget_id)
+                    ->where('in_process',1)
                     ->get();
                 foreach ($catogery as $cat) {
                     $catogery_id = $cat->catogery_id;

@@ -32,6 +32,29 @@ class EmployeeController extends Controller
         return view('home')->with('projStatus',$projStatus);
     }
 
+    static function utilized_amount($proj_id)
+    {
+        $total = 0;
+        $projects = DB::table('daily_site_report')
+        ->where('daily_site_report.proj_id',$proj_id)
+        ->get();
+
+        foreach($projects as $row)
+        {
+            $projectID = $row->id;
+
+            $sub_categories = DB::table('site_item')
+            ->select(DB::raw('sum(qty*unit_price) as total'))
+            ->where('site_item.dsreport_id',$projectID)
+            ->groupBy('site_item.dsreport_id')->get();
+
+            foreach($sub_categories as $row)
+            {
+                $total = $total+$row->total;
+            }
+        }
+        return $total;
+    }
     /**
      * Show the form for creating a new resource.
      *

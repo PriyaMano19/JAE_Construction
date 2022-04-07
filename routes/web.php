@@ -48,6 +48,7 @@ Route::get('/add_budget', 'BudgetController@addbudget')->name('add_budget');
 Route::get('/show_cat_budget', 'BudgetController@show_cat_budget');
 Route::get('/insert_budget', 'BudgetController@insert_budget');
 Route::get('/complete_budget/{id}', 'BudgetController@complete_budget');
+Route::get('/inprocess', 'BudgetController@inprocess');
 
 
 

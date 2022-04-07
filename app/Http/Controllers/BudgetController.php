@@ -290,7 +290,7 @@ class BudgetController extends Controller
                         <td class="text-center"><?php echo $this->catogery_name($budget_cat->catogery_id);  ?></td>
                         <td class="text-right"><?php echo $budget_cat->amount;  ?>.00</td>
                         <td class="text-center">
-                            <input type="checkbox" id="status" name="status" value="">
+                            <input type="checkbox" id="textbox1" name="textbox1" value="" onclick="handleClick(this);">
                         </td>
                         <td class="text-center">
                             <a class="btn btn-sm btn-warning">Edit</a>
@@ -319,6 +319,7 @@ class BudgetController extends Controller
                 </tr>
             </tbody>
         </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
             function confirm_complete() {
                 let text = "Once you click complete!\n.You can't modify this version";
@@ -331,6 +332,28 @@ class BudgetController extends Controller
                     //text = "You canceled!";
                 }
             }
+            
+            function handleClick(cb) 
+            {
+                var status = 0;
+                var budget_id =  $("#budget_id").val();
+                if(cb.checked) 
+                {
+                    status = 0;
+                }
+                else
+                {
+                    status = 1;
+                }
+                $.ajax({
+                    type:'get',
+                    url:'{!!url('inprocess')!!}',
+                    data:{'budget_id':budget_id},
+                    success:function(response){
+                    }
+                });
+               // window.location.href = "inprocess/"+budget_id;
+            }
         </script>
         <?php
     }
@@ -341,6 +364,15 @@ class BudgetController extends Controller
               ->where('budg_id', $budget_id)
               ->update(['complete' => 1]);
             return redirect('/budget')->with('complete', 'Project Budget Successfully Completed!!');
+    }
+
+    public function inprocess(Request $request)
+    {
+        $budget_id = $request->budget_id;
+            $completed = DB::table('category_budget')
+              ->where('budget_id', $budget_id)
+              ->update(['in_process' => 1]); 
+            //return redirect('/budget');
     }
 
     public function catogery_name($id)
