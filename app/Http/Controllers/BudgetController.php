@@ -287,10 +287,12 @@ class BudgetController extends Controller
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td class="text-center"><?php echo $this->catogery_name($budget_cat->catogery_id);  ?></td>
+                        <td class="text-center">
+                            <?php echo $this->catogery_name($budget_cat->catogery_id);  ?>
+                        </td>
                         <td class="text-right"><?php echo $budget_cat->amount;  ?>.00</td>
                         <td class="text-center">
-                            <input type="checkbox" id="textbox1" name="textbox1" value="" onclick="handleClick(this);">
+                            <input type="checkbox" id="textbox1" name="textbox1" value="" onclick="handleClick(<?php echo $budget_cat->catogery_id; ?>);">
                         </td>
                         <td class="text-center">
                             <a class="btn btn-sm btn-warning">Edit</a>
@@ -333,22 +335,23 @@ class BudgetController extends Controller
                 }
             }
             
-            function handleClick(cb) 
+            function handleClick(catID) 
             {
                 var status = 0;
                 var budget_id =  $("#budget_id").val();
                 if(cb.checked) 
                 {
-                    status = 0;
+                    status = 1;
                 }
                 else
                 {
-                    status = 1;
+                    status = 0;
                 }
+                //alert(status);
                 $.ajax({
                     type:'get',
-                    url:'{!!url('inprocess')!!}',
-                    data:{'budget_id':budget_id},
+                    url:'inprocess',
+                    data:{'budget_id':budget_id,'cate_id':catID},
                     success:function(response){
                     }
                 });
@@ -369,8 +372,10 @@ class BudgetController extends Controller
     public function inprocess(Request $request)
     {
         $budget_id = $request->budget_id;
+        $cate_id = $request->cate_id;
             $completed = DB::table('category_budget')
               ->where('budget_id', $budget_id)
+              ->where('catogery_id', $cate_id)
               ->update(['in_process' => 1]); 
             //return redirect('/budget');
     }
